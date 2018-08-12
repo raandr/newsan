@@ -1,0 +1,16 @@
+﻿<Properties StartupConfiguration="{1D8056EB-00A9-4347-903B-EC94807D1171}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="my_console/Program.cs">
+    <Files>
+      <File FileName="my_console/Program.cs" Line="169" Column="31" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.my__console PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/home/anatoly/Projects/my_console/my_console/Program.cs" relfile="my_console/Program.cs" line="167" column="27" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
