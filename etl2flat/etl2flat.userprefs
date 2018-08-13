@@ -1,13 +1,13 @@
 ﻿<Properties StartupConfiguration="{1D8056EB-00A9-4347-903B-EC94807D1171}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="etl2flat/Program.cs">
     <Files>
-      <File FileName="etl2flat/Program.cs" Line="15" Column="13" />
+      <File FileName="etl2flat/Program.cs" Line="173" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/home/anatoly/Projects/etl2flat/my_console/Program.cs" relfile="my_console/Program.cs" line="167" column="27" />
+      <Breakpoint file="/home/anatoly/Projects/git/newsan/etl2flat/my_console/Program.cs" relfile="my_console/Program.cs" line="167" column="27" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

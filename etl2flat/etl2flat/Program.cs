@@ -150,14 +150,38 @@ namespace my_console
         //private System.Collections.Generic.List<string> row;
         string[] row;
         private string line;
-        int index = -1;
+        int index;
+
+        private void RowToLine()
+        {
+            int lineLength = 0;
+
+            foreach (string str in row)
+            {
+                lineLength += str.Length;
+            }
+
+            lineLength += row.Length - 1;
+
+            line = new string((char)0, lineLength);
+
+        }
+
+        private void WriteFlatFile()
+        {
+
+
+        }
 
         public TableWriter(XmlParser xmlP, System.Collections.Generic.List<string> fieldOrder)
         {
             int length;
             int i = 0;
+            index = -1;
             length = fieldOrder.Count;
             row = new string[length];
+
+
 
             foreach (System.Xml.Linq.XElement xE in xmlP.xmlEnum)
             {
@@ -167,6 +191,7 @@ namespace my_console
                 if (i == index)
                 {
                     RowToLine();
+                    WriteFlatFile();
 
                 }
                 row[index] = xE.Value;
