@@ -146,11 +146,18 @@ namespace my_console
 
     class TableWriter
     {
-        private char columnDelimiter;
+        char columnDelimiter;
         //private System.Collections.Generic.List<string> row;
         string[] row;
-        private string line;
+        string line;
         int index;
+        int chunks;
+        int chunk;
+        int lines;
+        string fileName, chunkFile;
+        string fieldOrder;
+
+        private System.IO.FileStream fileStrim;
 
         private void RowToLine()
         {
@@ -167,31 +174,64 @@ namespace my_console
 
         }
 
+
         private void WriteFlatFile()
         {
 
 
         }
 
-        public TableWriter(XmlParser xmlP, System.Collections.Generic.List<string> fieldOrder)
+
+        private void CreateFlatFile()
+        {
+            chunkFile = fileName + "_" + chunk.ToString();
+            if (System.IO.File.Exists(chunkFile))
+                return;
+            fileStrim = System.IO.File.Create(chunkFile);
+
+        }
+
+        private void WriteRowToFlatFiles()
+        {
+            for (int i = 1; i <= chunks; i++)
+            {
+                WriteFlatFile();
+            }
+            fileStrim = System.IO.File.Create();
+
+        }
+
+
+        public TableWriter(XmlParser xmlP, System.Collections.Generic.List<string> fieldOrder, string fileName)
         {
             int length;
             int i = 0;
             index = -1;
             length = fieldOrder.Count;
             row = new string[length];
+            chunk = 0;
+            lines = 0;
 
 
 
             foreach (System.Xml.Linq.XElement xE in xmlP.xmlEnum)
             {
-                index = fieldOrder.IndexOf(xE.Name.ToString());
+                try
+                {
+                    index = fieldOrder.IndexOf(xE.Name.ToString());
+
+                }
+                catch (ArgumentNullException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
                 if (index == -1)
                     continue;
                 if (i == index)
                 {
                     RowToLine();
-                    WriteFlatFile();
+                    WriteRowToFlatFiles();
 
                 }
                 row[index] = xE.Value;
