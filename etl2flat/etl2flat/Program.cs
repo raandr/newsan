@@ -147,7 +147,7 @@ namespace my_console
     class TableWriter
     {
         char columnDelimiter;
-        //private System.Collections.Generic.List<string> row;
+        //System.Collections.Generic.List<string> row;
         string[] row;
         string line;
         int index;
@@ -157,9 +157,9 @@ namespace my_console
         string fileName, chunkFile;
         string fieldOrder;
 
-        private System.IO.FileStream fileStrim;
+        System.IO.FileStream fileStrim;
 
-        private void RowToLine()
+        void RowToLine()
         {
             int lineLength = 0;
 
@@ -175,14 +175,14 @@ namespace my_console
         }
 
 
-        private void WriteFlatFile()
+        void WriteFlatFile()
         {
 
 
         }
 
 
-        private void CreateFlatFile()
+        void CreateFlatFile()
         {
             chunkFile = fileName + "_" + chunk.ToString();
             if (System.IO.File.Exists(chunkFile))
@@ -191,7 +191,7 @@ namespace my_console
 
         }
 
-        private void WriteRowToFlatFiles()
+        void WriteRowToFlatFiles()
         {
             for (int i = 1; i <= chunks; i++)
             {
