@@ -24,7 +24,7 @@ namespace my_console
                 "image"            
             });
 
-            TableWriter tableWriter = new TableWriter(xmlParser, order);
+            TableWriter tableWriter = new TableWriter(xmlParser, order, "flatfile", 25000, '\t');
 
             String s = Console.ReadLine();
 
@@ -150,18 +150,21 @@ namespace my_console
         //System.Collections.Generic.List<string> row;
         string[] row;
         string line;
+        byte[] lineBytes;
         int index;
-        int chunks;
+        int chunkSize;
         int chunk;
-        int lines;
+        int linesWritten;
         string fileName, chunkFile;
-        string fieldOrder;
+        System.Collections.Generic.List<string> fieldOrder;
 
         System.IO.FileStream fileStrim;
+        int fileOffset;
 
         void RowToLine()
         {
             int lineLength = 0;
+
 
             foreach (string str in row)
             {
@@ -172,8 +175,28 @@ namespace my_console
 
             line = new string((char)0, lineLength);
 
+            foreach (string str in row)
+            {
+                line += str;
+                line += columnDelimiter;
+            }
+
         }
 
+        void LineToBytes()
+        {
+            byte b;
+            int i = 0;
+            lineBytes = new byte[line.Length];
+            foreach (char c in line)
+            {
+                b = (byte) c;
+                lineBytes[i] = b;
+
+                i++;
+            }
+
+        }
 
         void WriteFlatFile()
         {
@@ -182,8 +205,18 @@ namespace my_console
         }
 
 
-        void CreateFlatFile()
+        void CreateNextFlatFileChunk()
         {
+            chunk++;
+            if (fileStrim != null)
+            {
+                if (fileStrim.CanWrite)
+                    fileStrim.Flush();
+                fileStrim.Dispose();
+
+            }
+
+
             chunkFile = fileName + "_" + chunk.ToString();
             if (System.IO.File.Exists(chunkFile))
                 return;
@@ -191,18 +224,27 @@ namespace my_console
 
         }
 
-        void WriteRowToFlatFiles()
+        void WriteLineToFlatFiles()
         {
-            for (int i = 1; i <= chunks; i++)
+            if (!fileStrim.CanWrite)
             {
-                WriteFlatFile();
+                //fileStrim.Flush();
+                fileStrim.Dispose();
             }
-            fileStrim = System.IO.File.Create();
 
+            if (linesWritten >= chunkSize)
+            {
+                CreateNextFlatFileChunk();
+            }
+
+            fileStrim.Write(lineBytes, fileOffset, lineBytes.Length);
+
+            fileOffset += lineBytes.Length;
+            linesWritten++;
         }
 
 
-        public TableWriter(XmlParser xmlP, System.Collections.Generic.List<string> fieldOrder, string fileName)
+        public TableWriter(XmlParser xmlP, System.Collections.Generic.List<string> fieldOrder, string fileName, int chunkSize, char columnDelimiter)
         {
             int length;
             int i = 0;
@@ -210,8 +252,13 @@ namespace my_console
             length = fieldOrder.Count;
             row = new string[length];
             chunk = 0;
-            lines = 0;
+            linesWritten = 0;
+            fileOffset = 0;
 
+            this.fieldOrder = fieldOrder;
+            this.fileName = fileName;
+            this.chunkSize = chunkSize;
+            this.columnDelimiter = columnDelimiter;
 
 
             foreach (System.Xml.Linq.XElement xE in xmlP.xmlEnum)
@@ -231,7 +278,7 @@ namespace my_console
                 if (i == index)
                 {
                     RowToLine();
-                    WriteRowToFlatFiles();
+                    WriteLineToFlatFiles();
 
                 }
                 row[index] = xE.Value;
