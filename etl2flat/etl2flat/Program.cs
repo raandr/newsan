@@ -165,15 +165,19 @@ namespace my_console
         {
             int lineLength = 0;
 
-
+            if (row == null)
+                return;
             foreach (string str in row)
             {
+                if (str == null)
+                    continue;
                 lineLength += str.Length;
             }
 
             lineLength += row.Length - 1;
 
-            line = new string((char)0, lineLength);
+            //line = new string((char)0, lineLength);
+
 
             foreach (string str in row)
             {
@@ -260,6 +264,7 @@ namespace my_console
             this.chunkSize = chunkSize;
             this.columnDelimiter = columnDelimiter;
 
+            CreateNextFlatFileChunk();
 
             foreach (System.Xml.Linq.XElement xE in xmlP.xmlEnum)
             {
@@ -275,13 +280,17 @@ namespace my_console
 
                 if (index == -1)
                     continue;
-                if (i == index)
+
+                row[index] = xE.Value;
+
+                if (i >= length)
                 {
                     RowToLine();
+                    LineToBytes();
                     WriteLineToFlatFiles();
 
                 }
-                row[index] = xE.Value;
+
                 i++;
 
             }
