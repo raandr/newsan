@@ -181,6 +181,7 @@ namespace my_console
 
             foreach (string str in row)
             {
+                // Needs to be changed
                 line += str;
                 line += columnDelimiter;
             }
