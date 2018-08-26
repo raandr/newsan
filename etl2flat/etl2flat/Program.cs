@@ -148,8 +148,11 @@ namespace my_console
     {
         char columnDelimiter;
         //System.Collections.Generic.List<string> row;
+
         string[] row;
-        string line;
+        char[] line;
+        int lineLength;
+
         byte[] lineBytes;
         int index;
         int chunkSize;
@@ -163,8 +166,8 @@ namespace my_console
 
         void RowToLine()
         {
-            int lineLength = 0;
-
+            int i, j;
+            int strLength;
             if (row == null)
                 return;
             foreach (string str in row)
@@ -178,12 +181,19 @@ namespace my_console
 
             //line = new string((char)0, lineLength);
 
-
+            i = 0;
             foreach (string str in row)
             {
-                // Needs to be changed
-                line += str;
-                line += columnDelimiter;
+                strLength = str.Length;
+                // Needs to be changed - too many new...
+                for (j = 0; j < strLength; j++)
+                {
+                    line[i] = str[j];
+                    i++;
+
+                }
+
+                line[i] = columnDelimiter;
             }
 
         }
@@ -251,11 +261,14 @@ namespace my_console
 
         public TableWriter(XmlParser xmlP, System.Collections.Generic.List<string> fieldOrder, string fileName, int chunkSize, char columnDelimiter)
         {
+
             int length;
             int i = 0;
             index = -1;
             length = fieldOrder.Count;
             row = new string[length];
+            lineLength = 1024; // length of line
+            line = new char[lineLength];
             chunk = 0;
             linesWritten = 0;
             fileOffset = 0;
