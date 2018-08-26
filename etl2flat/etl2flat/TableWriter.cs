@@ -165,7 +165,8 @@ namespace NewsAn
                     RowToLine();
                     LineToBytes();
                     WriteLineToFlatFiles();
-
+                    i = 0;
+                    continue;
                 }
 
                 i++;
