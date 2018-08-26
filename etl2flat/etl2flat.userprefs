@@ -3,15 +3,16 @@
     <Files>
       <File FileName="etl2flat/Program.cs" Line="29" Column="1" />
       <File FileName="etl2flat/XmlParser.cs" Line="41" Column="5" />
-      <File FileName="etl2flat/RssParser.cs" Line="206" Column="17" />
+      <File FileName="etl2flat/RssParser.cs" Line="184" Column="13" />
+      <File FileName="etl2flat/TableWriter.cs" Line="4" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/anatoly/Projects/git/newsan/etl2flat/my_console/Program.cs" relfile="my_console/Program.cs" line="167" column="27" />
-      <Breakpoint enabled="false" file="/home/anatoly/Projects/git/newsan/etl2flat/etl2flat/RssParser.cs" relfile="etl2flat/RssParser.cs" line="184" column="1" />
-      <Breakpoint enabled="false" file="/home/anatoly/Projects/git/newsan/etl2flat/etl2flat/RssParser.cs" relfile="etl2flat/RssParser.cs" line="138" column="22" />
+      <Breakpoint enabled="false" file="/home/anatoly/Projects/git/newsan/etl2flat/etl2flat/RssParser.cs" relfile="etl2flat/RssParser.cs" line="185" column="1" />
+      <Breakpoint enabled="false" file="/home/anatoly/Projects/git/newsan/etl2flat/etl2flat/RssParser.cs" relfile="etl2flat/RssParser.cs" line="139" column="22" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
