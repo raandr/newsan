@@ -112,6 +112,8 @@ namespace NewsAn
             i = 0;
             foreach (string str in row)
             {
+                if (str == null)
+                    continue;
                 strLength = str.Length;
                 // Needs to be changed - too many new...
                 for (j = 0; j < strLength; j++)
@@ -169,6 +171,9 @@ namespace NewsAn
 
         void WriteLineToFlatFiles()
         {
+            if (fileStrim == null)
+                return;
+
             if (!fileStrim.CanWrite)
             {
                 //fileStrim.Flush();
@@ -180,9 +185,11 @@ namespace NewsAn
                 CreateNextFlatFileChunk();
             }
 
-            fileStrim.Write(lineBytes, fileOffset, lineBytes.Length);
+            fileStrim.Write(lineBytes, fileOffset, lineLength);
+            // example: byte[] info = new UTF8Encoding(true).GetBytes(dataasstring);
 
-            fileOffset += lineBytes.Length;
+            fileOffset += lineLength;
+
             linesWritten++;
         }
 
