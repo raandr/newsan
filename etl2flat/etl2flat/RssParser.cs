@@ -77,6 +77,8 @@ namespace NewsAn
     class TableWriter
     {
         char columnDelimiter;
+        char[] rowDelimiter;
+        byte[] rowDelimiterBytes;
         //System.Collections.Generic.List<string> row;
 
         string[] row;
@@ -92,12 +94,15 @@ namespace NewsAn
         System.Collections.Generic.List<string> fieldOrder;
 
         System.IO.FileStream fileStrim;
-        int fileOffset;
+        int filePosition;
 
         void RowToLine()
         {
             int i, j;
             int strLength;
+
+            lineLength = 0;
+
             if (row == null)
                 return;
             foreach (string str in row)
@@ -130,16 +135,8 @@ namespace NewsAn
 
         void LineToBytes()
         {
-            byte b;
-            int i = 0;
-            lineBytes = new byte[line.Length];
-            foreach (char c in line)
-            {
-                b = (byte)c;
-                lineBytes[i] = b;
 
-                i++;
-            }
+            lineBytes = new System.Text.UTF8Encoding(true).GetBytes(line, 0, lineLength);
 
         }
 
@@ -185,10 +182,10 @@ namespace NewsAn
                 CreateNextFlatFileChunk();
             }
 
-            fileStrim.Write(lineBytes, fileOffset, lineLength);
-            // example: byte[] info = new UTF8Encoding(true).GetBytes(dataasstring);
+            fileStrim.Write(lineBytes, 0, lineLength);
+            fileStrim.Write(rowDelimiterBytes, 0, rowDelimiterBytes.Length);
 
-            fileOffset += lineLength;
+            filePosition += lineLength;
 
             linesWritten++;
         }
@@ -196,17 +193,21 @@ namespace NewsAn
 
         public TableWriter(XmlParser xmlP, System.Collections.Generic.List<string> fieldOrder, string fileName, int chunkSize, char columnDelimiter)
         {
-
             int length;
             int i = 0;
             index = -1;
             length = fieldOrder.Count;
             row = new string[length];
-            lineLength = 1024; // length of line
-            line = new char[lineLength];
+            lineLength = 0; // length of line
+            line = new char[4096];
             chunk = 0;
             linesWritten = 0;
-            fileOffset = 0;
+            filePosition = 0;
+            rowDelimiter = new char[2];
+            rowDelimiter[0] = '\r';
+            rowDelimiter[1] = '\n';
+
+            rowDelimiterBytes = new System.Text.UTF8Encoding(true).GetBytes(rowDelimiter, 0, rowDelimiter.Length);
 
             this.fieldOrder = fieldOrder;
             this.fileName = fileName;
