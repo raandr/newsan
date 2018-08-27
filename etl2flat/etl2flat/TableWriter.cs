@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Text;
+
+
 namespace NewsAn
 {
+
     class TableWriter
     {
         char columnDelimiter;
@@ -9,7 +13,8 @@ namespace NewsAn
         //System.Collections.Generic.List<string> row;
 
         string[] row;
-        char[] line;
+        string line;
+        StringBuilder lineBuilder;
         int lineLength;
 
         byte[] lineBytes;
@@ -25,8 +30,6 @@ namespace NewsAn
 
         void RowToLine()
         {
-            int i, j;
-            int strLength;
 
             lineLength = 0;
 
@@ -41,29 +44,26 @@ namespace NewsAn
 
             lineLength += row.Length - 1;
 
-            i = 0;
+         
+            lineBuilder.Clear();
             foreach (string str in row)
             {
                 if (str == null)
                     continue;
-                strLength = str.Length;
-                // Needs to be changed - too many new...
-                for (j = 0; j < strLength; j++)
-                {
-                    line[i] = str[j];
-                    i++;
 
-                }
+                lineBuilder.Append(str);
+                lineBuilder.Append(columnDelimiter);
 
-                line[i] = columnDelimiter;
             }
+
+            line = lineBuilder.ToString();
 
         }
 
         void LineToBytes()
         {
 
-            lineBytes = new System.Text.UTF8Encoding(true).GetBytes(line, 0, lineLength);
+            lineBytes = new UTF8Encoding(true).GetBytes(line);
 
         }
 
@@ -126,7 +126,7 @@ namespace NewsAn
             length = fieldOrder.Count;
             row = new string[length];
             lineLength = 0; // length of line
-            line = new char[4096];
+            lineBuilder = new StringBuilder();
             chunk = 0;
             linesWritten = 0;
             filePosition = 0;
@@ -134,7 +134,7 @@ namespace NewsAn
             rowDelimiter[0] = '\r';
             rowDelimiter[1] = '\n';
 
-            rowDelimiterBytes = new System.Text.UTF8Encoding(true).GetBytes(rowDelimiter, 0, rowDelimiter.Length);
+            rowDelimiterBytes = new UTF8Encoding(true).GetBytes(rowDelimiter, 0, rowDelimiter.Length);
 
             this.fieldOrder = fieldOrder;
             this.fileName = fileName;

@@ -41,5 +41,8 @@
     <Compile Include="RssParser.cs" />
     <Compile Include="TableWriter.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
