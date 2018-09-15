@@ -20,12 +20,33 @@ namespace NewsAn
         };
 
         int i = -1; //See "title"
+       
 
         //Rss20ChannelEnum rss20Element;title,
 
         //System.Collections.Generic.KeyValuePair<Rss20ChannelElement, string> rss20Element;
         protected System.Collections.Generic.Dictionary<Rss20ChannelElement, string> rss20Element;
         protected System.Collections.Generic.List<System.Collections.Generic.Dictionary<Rss20ChannelElement, string>> rss20Channel;
+
+        /*
+         // Needs to be rewritten
+        public void NewRssParser(string filename) //: base(filename)
+        {
+            rss20Element = new System.Collections.Generic.Dictionary<Rss20ChannelElement, string>();
+            rss20Channel = new System.Collections.Generic.List<System.Collections.Generic.Dictionary<Rss20ChannelElement, string>>();
+            string xmlElementName;
+
+            foreach (System.Xml.Linq.XElement xmlElement in xmlEnum)
+            {
+                try
+                {
+                    xmlElementName = xmlElement.Name.ToString();
+                    if (xmlElementName == "channel")
+                }
+
+
+        }
+        */
 
         public RssParser(string filename) : base(filename)
         {

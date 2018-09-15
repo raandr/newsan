@@ -1,12 +1,5 @@
 ﻿<Properties StartupConfiguration="{1D8056EB-00A9-4347-903B-EC94807D1171}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="etl2flat/Program.cs">
-    <Files>
-      <File FileName="etl2flat/Program.cs" Line="37" Column="2" />
-      <File FileName="etl2flat/XmlParser.cs" Line="1" Column="1" />
-      <File FileName="etl2flat/RssParser.cs" Line="1" Column="1" />
-      <File FileName="etl2flat/TableWriter.cs" Line="1" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
