@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Xml.Linq;
+using System.Collections.Generic;
 namespace NewsAn
 {
     class RssParser : XmlParser
@@ -25,33 +27,46 @@ namespace NewsAn
         //Rss20ChannelEnum rss20Element;title,
 
         //System.Collections.Generic.KeyValuePair<Rss20ChannelElement, string> rss20Element;
-        protected System.Collections.Generic.Dictionary<Rss20ChannelElement, string> rss20Element;
-        protected System.Collections.Generic.List<System.Collections.Generic.Dictionary<Rss20ChannelElement, string>> rss20Channel;
+        protected Dictionary<Rss20ChannelElement, string> rss20Element;
+        protected List<Dictionary<Rss20ChannelElement, string>> rss20Channel;
 
-        /*
+
          // Needs to be rewritten
         public void NewRssParser(string filename) //: base(filename)
         {
-            rss20Element = new System.Collections.Generic.Dictionary<Rss20ChannelElement, string>();
-            rss20Channel = new System.Collections.Generic.List<System.Collections.Generic.Dictionary<Rss20ChannelElement, string>>();
+            IEnumerable<XNode> xmlChannel;
+            rss20Element = new Dictionary<Rss20ChannelElement, string>();
+            rss20Channel = new List<Dictionary<Rss20ChannelElement, string>>();
             string xmlElementName;
 
-            foreach (System.Xml.Linq.XElement xmlElement in xmlEnum)
+            foreach (XElement xmlElement in xmlEnum)
             {
                 try
                 {
                     xmlElementName = xmlElement.Name.ToString();
                     if (xmlElementName == "channel")
+                    {
+                        xmlChannel = xmlElement.Nodes();
+
+                    }
                 }
+
+                catch (ArgumentOutOfRangeException e)
+                {
+                    Console.WriteLine(e.ToString());
+
+                }
+
+            }
 
 
         }
-        */
+        
 
         public RssParser(string filename) : base(filename)
         {
-            rss20Element = new System.Collections.Generic.Dictionary<Rss20ChannelElement, string>();
-            rss20Channel = new System.Collections.Generic.List<System.Collections.Generic.Dictionary<Rss20ChannelElement, string>>();
+            rss20Element = new Dictionary<Rss20ChannelElement, string>();
+            rss20Channel = new List<Dictionary<Rss20ChannelElement, string>>();
             string xmlElementName;
 
             foreach (System.Xml.Linq.XElement xmlElement in xmlEnum)
@@ -64,7 +79,7 @@ namespace NewsAn
                         // Every new title element defines a new news item 
                         case "title":
                             i++;
-                            this.rss20Channel.Add(new System.Collections.Generic.Dictionary<Rss20ChannelElement, string>());
+                            this.rss20Channel.Add(new Dictionary<Rss20ChannelElement, string>());
                             this.rss20Channel[i].Add(Rss20ChannelElement.title, xmlElement.Value);
                             break;
 
@@ -133,7 +148,8 @@ namespace NewsAn
 
 
                         case "{http://www.w3.org/2005/Atom}link":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.link, xmlElement.Value);
+                            // multiple additions
+                            // this.rss20Channel[i].Add(Rss20ChannelElement.link, xmlElement.Value);
                             break;
 
 
