@@ -1,7 +1,9 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "etl2flat", "etl2flat\etl2flat.csproj", "{1D8056EB-00A9-4347-903B-EC94807D1171}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vscodeprj", "vscodeprj\vscodeprj.csproj", "{3902DFDC-BB7F-467F-9AA1-00DCF4EE700A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,5 +15,9 @@ Global
 		{1D8056EB-00A9-4347-903B-EC94807D1171}.Debug|x86.Build.0 = Debug|x86
 		{1D8056EB-00A9-4347-903B-EC94807D1171}.Release|x86.ActiveCfg = Release|x86
 		{1D8056EB-00A9-4347-903B-EC94807D1171}.Release|x86.Build.0 = Release|x86
+		{3902DFDC-BB7F-467F-9AA1-00DCF4EE700A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3902DFDC-BB7F-467F-9AA1-00DCF4EE700A}.Debug|x86.Build.0 = Debug|Any CPU
+		{3902DFDC-BB7F-467F-9AA1-00DCF4EE700A}.Release|x86.ActiveCfg = Release|Any CPU
+		{3902DFDC-BB7F-467F-9AA1-00DCF4EE700A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

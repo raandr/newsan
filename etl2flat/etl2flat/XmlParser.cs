@@ -14,13 +14,9 @@ namespace NewsAn
         public XmlParser(string filename)
         {
             fromFile = XElement.Load(filename);
-            xmlEnum = fromFile.DescendantsAndSelf();
+            //xmlEnum = fromFile.DescendantsAndSelf();
             /*
-            XNamespace atom = "http://www.w3.org/2005/Atom";
-            xmlEnum =
-                from element in fromFile.Elements(atom + "rss")
-                where (string)element.Attribute("rel") == "self"
-                select element;
+
             */
         }
 

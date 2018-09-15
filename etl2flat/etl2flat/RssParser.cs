@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
 namespace NewsAn
 {
     class RssParser : XmlParser
     {
+        XElement rssTag;
+
         protected enum Rss20ChannelElement
         {
             title,
@@ -19,14 +22,29 @@ namespace NewsAn
             category,
             lastBuildDate,
             image
-        };
+        }
+
+        protected enum Rss20XmlNamespace
+        {
+            dc,
+            media,
+            atom,
+            insert
+        }
+
+        protected enum CustomXmlNamespace
+        {
+            nyt
+
+        }
 
         int i = -1; //See "title"
-       
 
-        //Rss20ChannelEnum rss20Element;title,
 
-        //System.Collections.Generic.KeyValuePair<Rss20ChannelElement, string> rss20Element;
+
+        List<Rss20XmlNamespace> rss20XmlNamespaces;
+
+
         protected Dictionary<Rss20ChannelElement, string> rss20Element;
         protected List<Dictionary<Rss20ChannelElement, string>> rss20Channel;
 
@@ -34,10 +52,46 @@ namespace NewsAn
          // Needs to be rewritten
         public void NewRssParser(string filename) //: base(filename)
         {
+            IEnumerable<XAttribute> rssAttributes;
             IEnumerable<XNode> xmlChannel;
             rss20Element = new Dictionary<Rss20ChannelElement, string>();
             rss20Channel = new List<Dictionary<Rss20ChannelElement, string>>();
             string xmlElementName;
+           
+            rssAttributes = rssTag.Attributes();
+
+            foreach (XAttribute xA in rssAttributes)
+            {
+                
+                switch (xA.Name.LocalName)
+                {
+                    case "atom":
+                        rss20XmlNamespaces.Add(Rss20XmlNamespace.atom);
+                        break;
+
+                    case "dc":
+                        rss20XmlNamespaces.Add(Rss20XmlNamespace.dc);
+                        break;
+
+                    case "insert":
+                        rss20XmlNamespaces.Add(Rss20XmlNamespace.insert);
+                        break;
+
+                    case "media":
+                        rss20XmlNamespaces.Add(Rss20XmlNamespace.media);
+                        break;
+
+
+                }
+
+            }
+
+            XNamespace atom = "http://www.w3.org/2005/Atom";
+            xmlEnum =
+                from element in base.fromFile.Elements(atom + "rss")
+                where (string)element.Attribute("rel") == "self"
+                select element;
+
 
             foreach (XElement xmlElement in xmlEnum)
             {
@@ -68,6 +122,8 @@ namespace NewsAn
             rss20Element = new Dictionary<Rss20ChannelElement, string>();
             rss20Channel = new List<Dictionary<Rss20ChannelElement, string>>();
             string xmlElementName;
+
+            //xmlEnum = 
 
             foreach (System.Xml.Linq.XElement xmlElement in xmlEnum)
             {

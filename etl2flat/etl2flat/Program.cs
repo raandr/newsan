@@ -8,10 +8,11 @@ namespace NewsAn
     {
         public static void Main(string[] args)
         {
-            XmlParser xmlParser = new XmlParser(@"World.xml");
-            xmlParser.PrintXml();
+            //XmlParser xmlParser = new XmlParser(@"World.xml");
+
 
             RssParser rssParser = new RssParser(@"World.xml");
+            rssParser.PrintXml();
 
             System.Collections.Generic.List<string> order =
                 new System.Collections.Generic.List<string>(new string[]
@@ -24,7 +25,7 @@ namespace NewsAn
                 "image"
             });
 
-            TableWriter tableWriter = new TableWriter(xmlParser, order, "flatfile", 25000, '\t');
+            TableWriter tableWriter = new TableWriter(rssParser, order, "flatfile", 25000, '\t');
 
             String s = Console.ReadLine();
 
