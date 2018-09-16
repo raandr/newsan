@@ -1,6 +1,9 @@
 ﻿using System;
 // https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/how-to-create-a-basic-rss-feed
 // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/how-to-load-xml-from-a-file
+// from Mono Debug
+// mcs -debug Program.cs
+// mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:55555 Program.exe
 
 namespace NewsAn
 {
