@@ -1,5 +1,0 @@
-/home/anatoly/Projects/my_console/my_console/bin/Debug/my_console.exe
-/home/anatoly/Projects/my_console/my_console/bin/Debug/my_console.pdb
-/home/anatoly/Projects/my_console/my_console/obj/x86/Debug/my_console.csproj.CoreCompileInputs.cache
-/home/anatoly/Projects/my_console/my_console/obj/x86/Debug/my_console.exe
-/home/anatoly/Projects/my_console/my_console/obj/x86/Debug/my_console.pdb
