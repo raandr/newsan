@@ -1,0 +1,19 @@
+﻿<Properties StartupConfiguration="{1D8056EB-00A9-4347-903B-EC94807D1171}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="etl2flat/RssParser.cs">
+    <Files>
+      <File FileName="etl2flat/RssParser.cs" Line="14" Column="18" />
+      <File FileName="etl2flat/XmlParser.cs" Line="25" Column="1" />
+      <File FileName="etl2flat/Program.cs" Line="28" Column="40" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/home/anatoly/Projects/git/newsan/etl2flat/my_console/Program.cs" relfile="my_console/Program.cs" line="167" column="27" />
+      <Breakpoint file="/home/anatoly/Projects/git/newsan/etl2flat/etl2flat/RssParser.cs" relfile="etl2flat/RssParser.cs" line="89" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.etl2flat PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>
