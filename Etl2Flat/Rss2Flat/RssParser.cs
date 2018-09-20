@@ -57,6 +57,8 @@ namespace Rss2Flat
             rss20Element = new Dictionary<Rss20ChannelElement, string>();
             rss20Channel = new List<Dictionary<Rss20ChannelElement, string>>();
             string xmlElementName;
+
+            rssTag = base.fromFile.Descendants().First();
            
             rssAttributes = rssTag.Attributes();
 
