@@ -49,7 +49,7 @@ namespace Rss2Flat
         protected List<Dictionary<Rss20ChannelElement, string>> rss20Channel;
 
 
-         // Needs to be rewritten
+         // To be completed
         public void NewRssParser(string filename) //: base(filename)
         {
             IEnumerable<XAttribute> rssAttributes;
@@ -117,6 +117,7 @@ namespace Rss2Flat
         }
         
 
+        // Bad logic, will be rewritten
         public RssParser(string filename) : base(filename)
         {
             rss20Element = new Dictionary<Rss20ChannelElement, string>();
