@@ -1,2 +1,2 @@
 #!/bin/bash
-mcs -debug -reference:System.Xml.Linq Rss2Flat/XmlParser.cs Rss2Flat/RssParser.cs Rss2Flat/TableWriter.cs Rss2Flat/Program.cs;
+mcs -debug -reference:System -reference:System.Xml -reference:System.Xml.Linq -reference:System.Xml.Serialization Rss2Flat/Program.cs Rss2Flat/XmlParser.cs Rss2Flat/RssParser.cs Rss2Flat/TableWriter.cs -pkg:dotnet -lib:/usr/lib/mono/4.5;

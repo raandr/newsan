@@ -50,37 +50,43 @@ namespace Rss2Flat
 
 
          // To be completed
-        public void NewRssParser(string filename) //: base(filename)
+        public RssParser(string filename) : base(filename)
         {
             IEnumerable<XAttribute> rssAttributes;
             IEnumerable<XNode> xmlChannel;
             rss20Element = new Dictionary<Rss20ChannelElement, string>();
             rss20Channel = new List<Dictionary<Rss20ChannelElement, string>>();
             string xmlElementName;
+            Rss20XmlNamespace rss20XmlNamespace;
+            rss20XmlNamespaces = new List<Rss20XmlNamespace>();
 
-            rssTag = base.fromFile.Descendants().First();
-           
+
+            rssTag = base.fromFile.DescendantsAndSelf().First();
             rssAttributes = rssTag.Attributes();
-
+            
             foreach (XAttribute xA in rssAttributes)
             {
                 
                 switch (xA.Name.LocalName)
                 {
                     case "atom":
-                        rss20XmlNamespaces.Add(Rss20XmlNamespace.atom);
+                        rss20XmlNamespace = Rss20XmlNamespace.atom;
+                        rss20XmlNamespaces.Add(rss20XmlNamespace);
                         break;
 
                     case "dc":
-                        rss20XmlNamespaces.Add(Rss20XmlNamespace.dc);
+                        rss20XmlNamespace = Rss20XmlNamespace.dc;
+                        rss20XmlNamespaces.Add(rss20XmlNamespace);
                         break;
 
                     case "insert":
-                        rss20XmlNamespaces.Add(Rss20XmlNamespace.insert);
+                        rss20XmlNamespace = Rss20XmlNamespace.insert;
+                        rss20XmlNamespaces.Add(rss20XmlNamespace);
                         break;
 
                     case "media":
-                        rss20XmlNamespaces.Add(Rss20XmlNamespace.media);
+                        rss20XmlNamespace = Rss20XmlNamespace.media;
+                        rss20XmlNamespaces.Add(rss20XmlNamespace);
                         break;
 
 
@@ -120,6 +126,7 @@ namespace Rss2Flat
         
 
         // Bad logic, will be rewritten
+        /*
         public RssParser(string filename) : base(filename)
         {
             rss20Element = new Dictionary<Rss20ChannelElement, string>();
@@ -142,7 +149,7 @@ namespace Rss2Flat
                             this.rss20Channel[i].Add(Rss20ChannelElement.title, xmlElement.Value);
                             break;
 
-                            /* ****************************************************************************************** */
+                            
 
                         case "link":
                             this.rss20Channel[i].Add(Rss20ChannelElement.link, xmlElement.Value);
@@ -194,14 +201,12 @@ namespace Rss2Flat
 
 
 
-                            /*
-                             * {http://search.yahoo.com/mrss/}content
-                             * {http://search.yahoo.com/mrss/}description
-                             * {http://search.yahoo.com/mrss/}credit
-                             * {http://purl.org/dc/elements/1.1/}creator
-                             * 
-                             *
-                             */
+                            //
+                             // {http://search.yahoo.com/mrss/}content
+                             // {http://search.yahoo.com/mrss/}description
+                             // {http://search.yahoo.com/mrss/}credit
+                             // {http://purl.org/dc/elements/1.1/}creator
+
 
 
 
@@ -242,7 +247,8 @@ namespace Rss2Flat
                 }
 
             }
-        }
+            
+        }*/
 
 
     }
