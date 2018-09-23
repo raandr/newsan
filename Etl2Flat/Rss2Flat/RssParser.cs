@@ -53,12 +53,13 @@ namespace Rss2Flat
         public RssParser(string filename) : base(filename)
         {
             IEnumerable<XAttribute> rssAttributes;
-            IEnumerable<XNode> xmlChannel;
+            IEnumerable<XElement> xmlChannel;
             rss20Element = new Dictionary<Rss20ChannelElement, string>();
             rss20Channel = new List<Dictionary<Rss20ChannelElement, string>>();
             string xmlElementName;
             Rss20XmlNamespace rss20XmlNamespace;
             rss20XmlNamespaces = new List<Rss20XmlNamespace>();
+            string s;
 
 
             rssTag = base.fromFile.DescendantsAndSelf().First();
@@ -66,8 +67,9 @@ namespace Rss2Flat
             
             foreach (XAttribute xA in rssAttributes)
             {
+                s = xA.Name.LocalName;
                 
-                switch (xA.Name.LocalName)
+                switch (s)
                 {
                     case "atom":
                         rss20XmlNamespace = Rss20XmlNamespace.atom;
@@ -100,6 +102,11 @@ namespace Rss2Flat
                 where (string)element.Attribute("rel") == "self"
                 select element;
 
+            xmlChannel =
+                from element in base.fromFile.Elements(atom + "rss")
+                where (string)element.Attribute("rel") == "self" && element.Descendants() == null
+                select element;
+
 
             foreach (XElement xmlElement in xmlEnum)
             {
@@ -108,7 +115,7 @@ namespace Rss2Flat
                     xmlElementName = xmlElement.Name.ToString();
                     if (xmlElementName == "channel")
                     {
-                        xmlChannel = xmlElement.Nodes();
+                        xmlChannel = xmlElement.Elements();
 
                     }
                 }
