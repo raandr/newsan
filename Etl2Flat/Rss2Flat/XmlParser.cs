@@ -17,9 +17,6 @@ namespace Rss2Flat
         {
             fromFile = System.Xml.Linq.XElement.Load(filename);
             //xmlEnum = fromFile.DescendantsAndSelf();
-            /*
-
-            */
         }
 
         public void PrintXml()

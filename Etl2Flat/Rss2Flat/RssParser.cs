@@ -54,12 +54,15 @@ namespace Rss2Flat
         {
             IEnumerable<XAttribute> rssAttributes;
             IEnumerable<XElement> xmlChannel;
+            IEnumerable<XElement> rss20Channels;
             rss20Element = new Dictionary<Rss20ChannelElement, string>();
             rss20Channel = new List<Dictionary<Rss20ChannelElement, string>>();
             string xmlElementName;
             Rss20XmlNamespace rss20XmlNamespace;
             rss20XmlNamespaces = new List<Rss20XmlNamespace>();
             string s;
+            XElement rss20ChannelXmlElement;
+            string rss20ChannelXmlElementName;
 
 
             rssTag = base.fromFile.DescendantsAndSelf().First();
@@ -91,33 +94,26 @@ namespace Rss2Flat
                         rss20XmlNamespaces.Add(rss20XmlNamespace);
                         break;
 
+                    default:
+                        break;
+
 
                 }
 
             }
 
-            XNamespace atom = "http://www.w3.org/2005/Atom";
-            xmlEnum =
-                from element in base.fromFile.Elements(atom + "rss")
-                where (string)element.Attribute("rel") == "self"
-                select element;
-
-            xmlChannel =
-                from element in base.fromFile.Elements(atom + "rss")
-                where (string)element.Attribute("rel") == "self" && element.Descendants() == null
-                select element;
+            rss20ChannelXmlElementName = "channel";
+            //rss20ChannelXmlElement = new XElement(rss20ChannelXmlElementName);
+            rss20Channels = fromFile.Descendants(rss20ChannelXmlElementName);
 
 
-            foreach (XElement xmlElement in xmlEnum)
+
+
+            foreach (XElement xE in rss20Channels)
             {
                 try
                 {
-                    xmlElementName = xmlElement.Name.ToString();
-                    if (xmlElementName == "channel")
-                    {
-                        xmlChannel = xmlElement.Elements();
-
-                    }
+                    Console.WriteLine(xE.HasElements);
                 }
 
                 catch (ArgumentOutOfRangeException e)
