@@ -4,25 +4,61 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 namespace Rss2Flat
 {
+    enum Rss20ChannelElementEnum
+    {
+        title,
+        guid,
+        pubDate,
+        url,
+        item,
+        link,
+        description,
+        language,
+        copyright,
+        category,
+        lastBuildDate,
+        image
+    }
+
+    class Rss20ChannelElement
+    {
+        protected Dictionary<Rss20ChannelElementEnum, string> rss20ChannelElementContents;
+
+
+
+
+    }
+
+
+
+
+    class Rss20Channel
+    {
+        List<Rss20ChannelElement> rss20ChannelElements;
+
+
+
+
+
+
+    }
+
+    class Rss20Channels
+    {
+        List<Rss20Channel> rss20ChannelList;
+
+
+
+
+
+
+    }
+
     class RssParser : XmlParser
     {
         XElement rssTag;
 
-        protected enum Rss20ChannelElement
-        {
-            title,
-            guid,
-            pubDate,
-            url,
-            item,
-            link,
-            description,
-            language,
-            copyright,
-            category,
-            lastBuildDate,
-            image
-        }
+
 
         protected enum Rss20XmlNamespace
         {
@@ -45,33 +81,46 @@ namespace Rss2Flat
         List<Rss20XmlNamespace> rss20XmlNamespaces;
 
 
-        protected Dictionary<Rss20ChannelElement, string> rss20Element;
-        protected List<Dictionary<Rss20ChannelElement, string>> rss20Channel;
+        // =========================
+        // Main placeholder for data
+        Rss20Channels rss20Channels;
+        // =========================
 
 
-         // To be completed
+        // To be completed
         public RssParser(string filename) : base(filename)
         {
-            IEnumerable<XAttribute> rssAttributes;
-            IEnumerable<XElement> xmlChannel;
-            IEnumerable<XElement> rss20Channels;
-            rss20Element = new Dictionary<Rss20ChannelElement, string>();
-            rss20Channel = new List<Dictionary<Rss20ChannelElement, string>>();
+            // Need to read not only RSS 2.0 version
+            IEnumerable<XAttribute> rssAttributes; // holds rss attributes for the whole XML document
+            IEnumerable<XElement> rssChannels;
+            IEnumerable<XElement> rssChannel;
+
+            
+            // =================================
+            // Main placeholder for data
+            rss20Channels = new Rss20Channels();
+            // =================================
+
+
+            // rss20ChannelElement = new Rss20ChannelElement();
             string xmlElementName;
             Rss20XmlNamespace rss20XmlNamespace;
             rss20XmlNamespaces = new List<Rss20XmlNamespace>();
             string s;
-            XElement rss20ChannelXmlElement;
-            string rss20ChannelXmlElementName;
+            XElement rssChannelXmlElement;
+            string rssChannelXmlElementName;
 
 
+            
+            // ======================================================
+            // Start of rss attributes extraction
             rssTag = base.fromFile.DescendantsAndSelf().First();
             rssAttributes = rssTag.Attributes();
-            
+
             foreach (XAttribute xA in rssAttributes)
             {
                 s = xA.Name.LocalName;
-                
+
                 switch (s)
                 {
                     case "atom":
@@ -101,19 +150,31 @@ namespace Rss2Flat
                 }
 
             }
-
-            rss20ChannelXmlElementName = "channel";
-            //rss20ChannelXmlElement = new XElement(rss20ChannelXmlElementName);
-            rss20Channels = fromFile.Descendants(rss20ChannelXmlElementName);
+            // End of rss attributes extraction
+            // ======================================================
 
 
 
+            // Getting the channels
+            rssChannelXmlElementName = "channel";
+            rssChannels = fromFile.Descendants(rssChannelXmlElementName);
+            // There may be several channels inside one XML
 
-            foreach (XElement xE in rss20Channels)
+
+
+
+            foreach (XElement xE in rssChannels)
             {
                 try
                 {
                     Console.WriteLine(xE.HasElements);
+
+                    // Parsing the channel as RSS 2.0 channel
+                    rss20
+
+
+
+
                 }
 
                 catch (ArgumentOutOfRangeException e)
@@ -126,7 +187,7 @@ namespace Rss2Flat
 
 
         }
-        
+
 
         // Bad logic, will be rewritten
         /*
