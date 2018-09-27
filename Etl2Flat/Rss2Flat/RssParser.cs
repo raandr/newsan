@@ -22,7 +22,24 @@ namespace Rss2Flat
 
     class Rss20ChannelElement
     {
-        protected Dictionary<Rss20ChannelElementEnum, string> rss20ChannelElementContents;
+        protected Dictionary<Rss20ChannelElementEnum, string> rss20ChannelElementContents; // One article (post)
+        const int numberOfAttributes = sizeof(Rss20ChannelElementEnum);
+
+        public Rss20ChannelElement(List<Rss20ChannelElementEnum> attributeNames, List<string> attributeValues)
+        {
+            int i;
+            
+
+            rss20ChannelElementContents = new Dictionary<Rss20ChannelElementEnum, string>(numberOfAttributes);
+
+            
+
+            for (i = 0; i < attributeNames.Count; i++)
+            {
+                rss20ChannelElementContents.Add(attributeNames[i], attributeValues[i]);
+                
+            }
+        }
 
 
 
@@ -45,7 +62,7 @@ namespace Rss2Flat
 
     class Rss20Channels
     {
-        List<Rss20Channel> rss20ChannelList;
+        List<Rss20Channel> rss20ChannelList; // List of RSS 2.0 channels
 
 
 
