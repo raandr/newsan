@@ -28,20 +28,20 @@ namespace Rss2Flat
         public Rss20ChannelElement(List<Rss20ChannelElementEnum> attributeNames, List<string> attributeValues)
         {
             int i;
-            
 
             rss20ChannelElementContents = new Dictionary<Rss20ChannelElementEnum, string>(numberOfAttributes);
-
-            
 
             for (i = 0; i < attributeNames.Count; i++)
             {
                 rss20ChannelElementContents.Add(attributeNames[i], attributeValues[i]);
-                
+
             }
         }
 
-
+        public Rss20ChannelElement(Dictionary<Rss20ChannelElementEnum, string> values)
+        {
+            rss20ChannelElementContents = new Dictionary<Rss20ChannelElementEnum, string>(values);
+        }
 
 
     }
@@ -51,30 +51,34 @@ namespace Rss2Flat
 
     class Rss20Channel
     {
-        List<Rss20ChannelElement> rss20ChannelElements;
+        private List<Rss20ChannelElement> rss20ChannelElements;
 
+        // I don't like lambda syntax
+        //internal List<Rss20ChannelElement> Rss20ChannelElements { get => rss20ChannelElements; set => rss20ChannelElements = value; }
 
+        public List<Rss20ChannelElement> Rss20ChannelElements
+        {
+            get
+            {
+                return Rss20ChannelElements;
+            }
 
+            set
+            {
+                Rss20ChannelElements = new List<Rss20ChannelElement>(value);
+            }
+
+        }
 
 
 
     }
 
-    class Rss20Channels
+    class Rss20File
     {
-        List<Rss20Channel> rss20ChannelList; // List of RSS 2.0 channels
+        
 
-
-
-
-
-
-    }
-
-    class RssParser : XmlParser
-    {
-        XElement rssTag;
-
+        XElement rss20Tag;
 
 
         protected enum Rss20XmlNamespace
@@ -91,50 +95,32 @@ namespace Rss2Flat
 
         }
 
-        int i = -1; //See "title"
-
-
-
         List<Rss20XmlNamespace> rss20XmlNamespaces;
 
 
         // =========================
         // Main placeholder for data
-        Rss20Channels rss20Channels;
+        List<Rss20Channel> rss20Channels; // List of RSS 2.0 channels
         // =========================
 
+        string xmlElementName;
+        Rss20XmlNamespace rss20XmlNamespace;
 
-        // To be completed
-        public RssParser(string filename) : base(filename)
+        string s;
+        XElement rssChannelXmlElement;
+        string rssChannelXmlElementName;
+
+        // need to add rss20Attributes
+
+        public Rss20File(XElement input)
         {
-            // Need to read not only RSS 2.0 version
-            IEnumerable<XAttribute> rssAttributes; // holds rss attributes for the whole XML document
-            IEnumerable<XElement> rssChannels;
-            IEnumerable<XElement> rssChannel;
-
-            
-            // =================================
-            // Main placeholder for data
-            rss20Channels = new Rss20Channels();
-            // =================================
-
-
-            // rss20ChannelElement = new Rss20ChannelElement();
-            string xmlElementName;
-            Rss20XmlNamespace rss20XmlNamespace;
             rss20XmlNamespaces = new List<Rss20XmlNamespace>();
-            string s;
-            XElement rssChannelXmlElement;
-            string rssChannelXmlElementName;
-
-
-            
             // ======================================================
             // Start of rss attributes extraction
-            rssTag = base.fromFile.DescendantsAndSelf().First();
-            rssAttributes = rssTag.Attributes();
+            rss20Tag = input.DescendantsAndSelf().First();
+            rss20Attributes = rss20Tag.Attributes();
 
-            foreach (XAttribute xA in rssAttributes)
+            foreach (XAttribute xA in rss20Attributes)
             {
                 s = xA.Name.LocalName;
 
@@ -165,7 +151,6 @@ namespace Rss2Flat
 
 
                 }
-
             }
             // End of rss attributes extraction
             // ======================================================
@@ -203,6 +188,54 @@ namespace Rss2Flat
             }
 
 
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+    }
+
+    class RssParser : XmlParser
+    {
+
+
+
+
+
+        int i = -1; //See "title"
+
+
+
+
+
+
+        // To be completed
+        public RssParser(string filename) : base(filename)
+        {
+            // Need to read not only RSS 2.0 version
+            IEnumerable<XAttribute> rssAttributes; // holds rss attributes for the whole XML document
+            IEnumerable<XElement> rssChannels;
+            IEnumerable<XElement> rssChannel;
+
+
+            // =================================
+            // Main placeholder for data
+            rss20Channels = new Rss20Channels();
+            // =================================
+
+
+            // rss20ChannelElement = new Rss20ChannelElement();
+
+
+
         }
 
 
@@ -230,7 +263,7 @@ namespace Rss2Flat
                             this.rss20Channel[i].Add(Rss20ChannelElement.title, xmlElement.Value);
                             break;
 
-                            
+
 
                         case "link":
                             this.rss20Channel[i].Add(Rss20ChannelElement.link, xmlElement.Value);
@@ -328,7 +361,7 @@ namespace Rss2Flat
                 }
 
             }
-            
+
         }*/
 
 
