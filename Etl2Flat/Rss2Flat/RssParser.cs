@@ -74,11 +74,11 @@ namespace Rss2Flat
 
     }
 
-    class Rss20File
+    class Rss20File : XmlFile
     {
-        
-
         XElement rss20Tag;
+
+        IEnumerable<XAttribute> rss20AttributesIE;
 
 
         protected enum Rss20XmlNamespace
@@ -103,24 +103,24 @@ namespace Rss2Flat
         List<Rss20Channel> rss20Channels; // List of RSS 2.0 channels
         // =========================
 
-        string xmlElementName;
+        
         Rss20XmlNamespace rss20XmlNamespace;
 
         string s;
         XElement rssChannelXmlElement;
-        string rssChannelXmlElementName;
+        private const string rss20ChannelXmlElementName = "channel";
 
         // need to add rss20Attributes
 
-        public Rss20File(XElement input)
+        public Rss20File(string inputRssFileName) : base(inputRssFileName)
         {
             rss20XmlNamespaces = new List<Rss20XmlNamespace>();
             // ======================================================
             // Start of rss attributes extraction
-            rss20Tag = input.DescendantsAndSelf().First();
-            rss20Attributes = rss20Tag.Attributes();
+            rss20Tag = base.xmlIE.DescendantsAndSelf().First();
+            rss20AttributesIE = rss20Tag.Attributes();
 
-            foreach (XAttribute xA in rss20Attributes)
+            foreach (XAttribute xA in rss20AttributesIE)
             {
                 s = xA.Name.LocalName;
 
@@ -158,14 +158,91 @@ namespace Rss2Flat
 
 
             // Getting the channels
-            rssChannelXmlElementName = "channel";
-            rssChannels = fromFile.Descendants(rssChannelXmlElementName);
+
+            Rss20Channel r20C;
+            Rss20ChannelElement r20CE;
+            string xmlElementName;
+            
+            foreach (XElement xE in xmlIE.Descendants(rss20ChannelXmlElementName))
+            {
+                foreach (XElement xxE in xE)
+                {
+                    xmlElementName = xxE.Name.LocalName;
+
+                                      switch (xmlElementName)
+                    {
+                        // Every new title element defines a new news item 
+                        case "title":
+                            i++;
+                            this.rss20Channel.Add(new Dictionary<Rss20ChannelElement, string>());
+                            this.rss20Channel[i].Add(Rss20ChannelElement.title, xmlElement.Value);
+                            break;
+
+
+
+                        case "link":
+                            this.rss20Channel[i].Add(Rss20ChannelElement.link, xmlElement.Value);
+                            break;
+
+                        case "description":
+                            this.rss20Channel[i].Add(Rss20ChannelElement.description, xmlElement.Value);
+                            break;
+
+                        case "language":
+                            this.rss20Channel[i].Add(Rss20ChannelElement.language, xmlElement.Value);
+                            break;
+
+                        case "copyright":
+                            this.rss20Channel[i].Add(Rss20ChannelElement.copyright, xmlElement.Value);
+                            break;
+
+                        case "lastBuildDate":
+                            this.rss20Channel[i].Add(Rss20ChannelElement.lastBuildDate, xmlElement.Value);
+                            break;
+
+                        case "image":
+                            this.rss20Channel[i].Add(Rss20ChannelElement.image, xmlElement.Value);
+                            break;
+
+                        case "url":
+                            // Do
+                            break;
+
+                        case "item":
+                            // Need to do foreach item
+                            break;
+
+                        case "guid":
+                            this.rss20Channel[i].Add(Rss20ChannelElement.guid, xmlElement.Value);
+                            break;
+
+                        case "pubDate":
+                            this.rss20Channel[i].Add(Rss20ChannelElement.pubDate, xmlElement.Value);
+                            break;
+
+                        case "category":
+                            // Do nothing
+                            break;
+
+
+
+
+
+                    
+                }
+                r20C.Rss20ChannelElements.Add()
+                rss20Channels.Add(r20C)
+            }
+
+
+
+            rss20Channels = new List<Rss20Channel>(this.xmlIE.Descendants(rss20ChannelXmlElementName));
             // There may be several channels inside one XML
 
 
 
 
-            foreach (XElement xE in rssChannels)
+            foreach (XElement xE in rss20Channels)
             {
                 try
                 {

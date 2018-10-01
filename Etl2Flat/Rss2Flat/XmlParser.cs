@@ -6,22 +6,24 @@ using Rss2Flat;
 
 namespace Rss2Flat
 {
-    class XmlParser
+    class XmlFile
     {
+        protected string fileName;
         protected System.Xml.Linq.XElement fromFile;
-        public IEnumerable<System.Xml.Linq.XElement> xmlEnum;
+        public IEnumerable<System.Xml.Linq.XElement> xmlIE;
 
 
 
-        public XmlParser(string filename)
+        public XmlFile(string inputFileName)
         {
-            fromFile = System.Xml.Linq.XElement.Load(filename);
-            //xmlEnum = fromFile.DescendantsAndSelf();
+            this.fileName = inputFileName;
+            fromFile = System.Xml.Linq.XElement.Load(fileName);
+            xmlIE = fromFile.DescendantsAndSelf();
         }
 
         public void PrintXml()
         {
-            foreach (System.Xml.Linq.XElement ixE in xmlEnum)
+            foreach (System.Xml.Linq.XElement ixE in xmlIE)
             {
                 if (!ixE.HasElements)
                 {
