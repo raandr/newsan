@@ -51,23 +51,28 @@ namespace Rss2Flat
 
     class Rss20Channel
     {
-        private List<Rss20ChannelElement> rss20ChannelElements;
+        //private List<Rss20ChannelElement> rss20ChannelElements;
 
         // I don't like lambda syntax
         //internal List<Rss20ChannelElement> Rss20ChannelElements { get => rss20ChannelElements; set => rss20ChannelElements = value; }
 
-        public List<Rss20ChannelElement> Rss20ChannelElements
+        public List<Rss20ChannelElement> rss20ChannelElements
         {
             get
             {
-                return Rss20ChannelElements;
+                return rss20ChannelElements;
             }
 
             set
             {
-                Rss20ChannelElements = new List<Rss20ChannelElement>(value);
+                rss20ChannelElements = new List<Rss20ChannelElement>(value);
             }
 
+        }
+
+        public void Add(Rss20ChannelElement rss20ChannelElement)
+        {
+            rss20ChannelElements.Add(rss20ChannelElement);
         }
 
 
@@ -114,6 +119,9 @@ namespace Rss2Flat
 
         public Rss20File(string inputRssFileName) : base(inputRssFileName)
         {
+            Rss20Channel r20C;
+            Rss20ChannelElement r20CE;
+
             rss20XmlNamespaces = new List<Rss20XmlNamespace>();
             // ======================================================
             // Start of rss attributes extraction
@@ -159,8 +167,8 @@ namespace Rss2Flat
 
             // Getting the channels
 
-            Rss20Channel r20C;
-            Rss20ChannelElement r20CE;
+            r20C = new Rss20Channel();
+            //r20CE = new Rss20ChannelElement();
             string xmlElementName;
             
             foreach (XElement xE in xmlIE.Descendants(rss20ChannelXmlElementName))
@@ -169,13 +177,12 @@ namespace Rss2Flat
                 {
                     xmlElementName = xxE.Name.LocalName;
 
-                                      switch (xmlElementName)
+                    switch (xmlElementName)
                     {
                         // Every new title element defines a new news item 
                         case "title":
                             i++;
-                            this.rss20Channel.Add(new Dictionary<Rss20ChannelElement, string>());
-                            this.rss20Channel[i].Add(Rss20ChannelElement.title, xmlElement.Value);
+                            r20C.Add(Rss20ChannelElement.title, xmlElement.Value);
                             break;
 
 
@@ -230,8 +237,8 @@ namespace Rss2Flat
 
                     
                 }
-                r20C.Rss20ChannelElements.Add()
-                rss20Channels.Add(r20C)
+                r20C.Rss20ChannelElements.Add();
+                this.rss20Channels.Add(r20C);
             }
 
 
