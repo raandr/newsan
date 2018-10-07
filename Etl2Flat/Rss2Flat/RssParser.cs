@@ -43,6 +43,19 @@ namespace Rss2Flat
             rss20ChannelElementContents = new Dictionary<Rss20ChannelElementEnum, string>(values);
         }
 
+        public Rss20ChannelElement()
+        {
+            rss20ChannelElementContents = new Dictionary<Rss20ChannelElementEnum, string>();
+
+        }
+
+        public void Set(Rss20ChannelElementEnum e, string s)
+        {
+            rss20ChannelElementContents.Add(e, s);
+        }
+
+
+
 
     }
 
@@ -168,7 +181,7 @@ namespace Rss2Flat
             // Getting the channels
 
             r20C = new Rss20Channel();
-            //r20CE = new Rss20ChannelElement();
+            r20CE = new Rss20ChannelElement();
             string xmlElementName;
             
             foreach (XElement xE in xmlIE.Descendants(rss20ChannelXmlElementName))
@@ -182,13 +195,13 @@ namespace Rss2Flat
                         // Every new title element defines a new news item 
                         case "title":
                             i++;
-                            r20C.Add(Rss20ChannelElement.title, xmlElement.Value);
+                            r20CE.Set(Rss20ChannelElementEnum., );
                             break;
 
 
 
                         case "link":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.link, xmlElement.Value);
+                            r20CE.Set(Rss20ChannelElementEnum.link, xxE.Value);
                             break;
 
                         case "description":
@@ -237,8 +250,8 @@ namespace Rss2Flat
 
                     
                 }
-                r20C.Rss20ChannelElements.Add();
-                this.rss20Channels.Add(r20C);
+                
+                r20C.Add(r20CE);
             }
 
 
