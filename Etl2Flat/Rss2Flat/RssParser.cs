@@ -10,7 +10,6 @@ namespace Rss2Flat
         guid,
         pubDate,
         url,
-        item,
         link,
         description,
         language,
@@ -127,6 +126,7 @@ namespace Rss2Flat
         string s;
         XElement rssChannelXmlElement;
         private const string rss20ChannelXmlElementName = "channel";
+        private const string rss20PostXmlElementName = "item";
 
         // need to add rss20Attributes
 
@@ -182,54 +182,45 @@ namespace Rss2Flat
 
             r20C = new Rss20Channel();
             r20CE = new Rss20ChannelElement();
-            string xmlElementName;
+            string postElementName;
             
-            foreach (XElement xE in xmlIE.Descendants(rss20ChannelXmlElementName))
+            foreach (XElement iChannel in xmlIE.Descendants(rss20ChannelXmlElementName))
             {
-                foreach (XElement xxE in xE)
+                foreach (XElement iPost in iChannel.Descendants(rss20PostXmlElementName))
                 {
-                    xmlElementName = xxE.Name.LocalName;
-
-                    switch (xmlElementName)
+                    switch (iPost.Name.LocalName)
                     {
                         // Every new title element defines a new news item 
                         case "title":
-                            i++;
-                            r20CE.Set(Rss20ChannelElementEnum., );
+                            r20CE.Set(Rss20ChannelElementEnum.title, iPost.Value);
                             break;
 
-
-
                         case "link":
-                            r20CE.Set(Rss20ChannelElementEnum.link, xxE.Value);
+                            r20CE.Set(Rss20ChannelElementEnum.link, iPost.Value);
                             break;
 
                         case "description":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.description, xmlElement.Value);
+                            r20CE.Set(Rss20ChannelElementEnum.description, iPost.Value);
                             break;
 
                         case "language":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.language, xmlElement.Value);
+                            r20CE.Set(Rss20ChannelElementEnum.language, iPost.Value);
                             break;
 
                         case "copyright":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.copyright, xmlElement.Value);
+                            r20CE.Set(Rss20ChannelElementEnum.copyright, iPost.Value);
                             break;
 
                         case "lastBuildDate":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.lastBuildDate, xmlElement.Value);
+                            r20CE.Set(Rss20ChannelElementEnum.lastBuildDate, iPost.Value);
                             break;
 
                         case "image":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.image, xmlElement.Value);
+                            r20CE.Set(Rss20ChannelElementEnum.image, iPost.Value);
                             break;
 
                         case "url":
-                            // Do
-                            break;
-
-                        case "item":
-                            // Need to do foreach item
+                            r20CE.Set(Rss20ChannelElementEnum.url, iPost.Value);
                             break;
 
                         case "guid":
