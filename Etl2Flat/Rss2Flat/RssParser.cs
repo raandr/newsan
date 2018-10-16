@@ -21,36 +21,36 @@ namespace Rss2Flat
 
     class Rss20Post
     {
-        protected Dictionary<Rss20PostEnum, string> rss20ChannelElementContents; // One article (post)
+        protected Dictionary<Rss20PostEnum, string> rss20PostContents; // One article (post)
         const int numberOfAttributes = sizeof(Rss20PostEnum);
 
         public Rss20Post(List<Rss20PostEnum> attributeNames, List<string> attributeValues)
         {
             int i;
 
-            rss20ChannelElementContents = new Dictionary<Rss20PostEnum, string>(numberOfAttributes);
+            rss20PostContents = new Dictionary<Rss20PostEnum, string>(numberOfAttributes);
 
             for (i = 0; i < attributeNames.Count; i++)
             {
-                rss20ChannelElementContents.Add(attributeNames[i], attributeValues[i]);
+                rss20PostContents.Add(attributeNames[i], attributeValues[i]);
 
             }
         }
 
         public Rss20Post(Dictionary<Rss20PostEnum, string> values)
         {
-            rss20ChannelElementContents = new Dictionary<Rss20PostEnum, string>(values);
+            rss20PostContents = new Dictionary<Rss20PostEnum, string>(values);
         }
 
         public Rss20Post()
         {
-            rss20ChannelElementContents = new Dictionary<Rss20PostEnum, string>();
+            rss20PostContents = new Dictionary<Rss20PostEnum, string>();
 
         }
 
         public void Set(Rss20PostEnum e, string s)
         {
-            rss20ChannelElementContents.Add(e, s);
+            rss20PostContents.Add(e, s);
         }
 
 
@@ -63,28 +63,28 @@ namespace Rss2Flat
 
     class Rss20Channel
     {
-        //private List<Rss20Post> rss20ChannelElements;
+        //private List<Rss20Post> rss20Posts;
 
         // I don't like lambda syntax
-        //internal List<Rss20Post> Rss20ChannelElements { get => rss20ChannelElements; set => rss20ChannelElements = value; }
+        //internal List<Rss20Post> rss20Posts { get => rss20Posts; set => rss20Posts = value; }
 
-        public List<Rss20Post> rss20ChannelElements
+        public List<Rss20Post> rss20Posts
         {
             get
             {
-                return rss20ChannelElements;
+                return rss20Posts;
             }
 
             set
             {
-                rss20ChannelElements = new List<Rss20Post>(value);
+                rss20Posts = new List<Rss20Post>(value);
             }
 
         }
 
         public void Add(Rss20Post Rss20Post)
         {
-            rss20ChannelElements.Add(Rss20Post);
+            rss20Posts.Add(Rss20Post);
         }
 
 
