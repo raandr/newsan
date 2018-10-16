@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 namespace Rss2Flat
 {
-    enum Rss20ChannelElementEnum
+    enum Rss20PostEnum
     {
         title,
         guid,
@@ -19,16 +19,16 @@ namespace Rss2Flat
         image
     }
 
-    class Rss20ChannelElement
+    class Rss20Post
     {
-        protected Dictionary<Rss20ChannelElementEnum, string> rss20ChannelElementContents; // One article (post)
-        const int numberOfAttributes = sizeof(Rss20ChannelElementEnum);
+        protected Dictionary<Rss20PostEnum, string> rss20ChannelElementContents; // One article (post)
+        const int numberOfAttributes = sizeof(Rss20PostEnum);
 
-        public Rss20ChannelElement(List<Rss20ChannelElementEnum> attributeNames, List<string> attributeValues)
+        public Rss20Post(List<Rss20PostEnum> attributeNames, List<string> attributeValues)
         {
             int i;
 
-            rss20ChannelElementContents = new Dictionary<Rss20ChannelElementEnum, string>(numberOfAttributes);
+            rss20ChannelElementContents = new Dictionary<Rss20PostEnum, string>(numberOfAttributes);
 
             for (i = 0; i < attributeNames.Count; i++)
             {
@@ -37,18 +37,18 @@ namespace Rss2Flat
             }
         }
 
-        public Rss20ChannelElement(Dictionary<Rss20ChannelElementEnum, string> values)
+        public Rss20Post(Dictionary<Rss20PostEnum, string> values)
         {
-            rss20ChannelElementContents = new Dictionary<Rss20ChannelElementEnum, string>(values);
+            rss20ChannelElementContents = new Dictionary<Rss20PostEnum, string>(values);
         }
 
-        public Rss20ChannelElement()
+        public Rss20Post()
         {
-            rss20ChannelElementContents = new Dictionary<Rss20ChannelElementEnum, string>();
+            rss20ChannelElementContents = new Dictionary<Rss20PostEnum, string>();
 
         }
 
-        public void Set(Rss20ChannelElementEnum e, string s)
+        public void Set(Rss20PostEnum e, string s)
         {
             rss20ChannelElementContents.Add(e, s);
         }
@@ -63,12 +63,12 @@ namespace Rss2Flat
 
     class Rss20Channel
     {
-        //private List<Rss20ChannelElement> rss20ChannelElements;
+        //private List<Rss20Post> rss20ChannelElements;
 
         // I don't like lambda syntax
-        //internal List<Rss20ChannelElement> Rss20ChannelElements { get => rss20ChannelElements; set => rss20ChannelElements = value; }
+        //internal List<Rss20Post> Rss20ChannelElements { get => rss20ChannelElements; set => rss20ChannelElements = value; }
 
-        public List<Rss20ChannelElement> rss20ChannelElements
+        public List<Rss20Post> rss20ChannelElements
         {
             get
             {
@@ -77,14 +77,14 @@ namespace Rss2Flat
 
             set
             {
-                rss20ChannelElements = new List<Rss20ChannelElement>(value);
+                rss20ChannelElements = new List<Rss20Post>(value);
             }
 
         }
 
-        public void Add(Rss20ChannelElement rss20ChannelElement)
+        public void Add(Rss20Post Rss20Post)
         {
-            rss20ChannelElements.Add(rss20ChannelElement);
+            rss20ChannelElements.Add(Rss20Post);
         }
 
 
@@ -133,7 +133,7 @@ namespace Rss2Flat
         public Rss20File(string inputRssFileName) : base(inputRssFileName)
         {
             Rss20Channel r20C;
-            Rss20ChannelElement r20CE;
+            Rss20Post r20CE;
 
             rss20XmlNamespaces = new List<Rss20XmlNamespace>();
             // ======================================================
@@ -181,7 +181,7 @@ namespace Rss2Flat
             // Getting the channels
 
             r20C = new Rss20Channel();
-            r20CE = new Rss20ChannelElement();
+            r20CE = new Rss20Post();
             string postElementName;
             
             foreach (XElement iChannel in xmlIE.Descendants(rss20ChannelXmlElementName))
@@ -192,57 +192,54 @@ namespace Rss2Flat
                     {
                         // Every new title element defines a new news item 
                         case "title":
-                            r20CE.Set(Rss20ChannelElementEnum.title, iPost.Value);
+                            r20CE.Set(Rss20PostEnum.title, iPost.Value);
                             break;
 
                         case "link":
-                            r20CE.Set(Rss20ChannelElementEnum.link, iPost.Value);
+                            r20CE.Set(Rss20PostEnum.link, iPost.Value);
                             break;
 
                         case "description":
-                            r20CE.Set(Rss20ChannelElementEnum.description, iPost.Value);
+                            r20CE.Set(Rss20PostEnum.description, iPost.Value);
                             break;
 
                         case "language":
-                            r20CE.Set(Rss20ChannelElementEnum.language, iPost.Value);
+                            r20CE.Set(Rss20PostEnum.language, iPost.Value);
                             break;
 
                         case "copyright":
-                            r20CE.Set(Rss20ChannelElementEnum.copyright, iPost.Value);
+                            r20CE.Set(Rss20PostEnum.copyright, iPost.Value);
                             break;
 
                         case "lastBuildDate":
-                            r20CE.Set(Rss20ChannelElementEnum.lastBuildDate, iPost.Value);
+                            r20CE.Set(Rss20PostEnum.lastBuildDate, iPost.Value);
                             break;
 
                         case "image":
-                            r20CE.Set(Rss20ChannelElementEnum.image, iPost.Value);
+                            r20CE.Set(Rss20PostEnum.image, iPost.Value);
                             break;
 
                         case "url":
-                            r20CE.Set(Rss20ChannelElementEnum.url, iPost.Value);
+                            r20CE.Set(Rss20PostEnum.url, iPost.Value);
                             break;
 
                         case "guid":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.guid, xmlElement.Value);
+                            r20CE.Set(Rss20PostEnum.guid, iPost.Value);
                             break;
 
                         case "pubDate":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.pubDate, xmlElement.Value);
+                            r20CE.Set(Rss20PostEnum.pubDate, iPost.Value);
                             break;
 
                         case "category":
                             // Do nothing
                             break;
-
-
-
-
-
+                    }
                     
                 }
                 
                 r20C.Add(r20CE);
+
             }
 
 
@@ -320,7 +317,7 @@ namespace Rss2Flat
             // =================================
 
 
-            // rss20ChannelElement = new Rss20ChannelElement();
+            // Rss20Post = new Rss20Post();
 
 
 
@@ -331,8 +328,8 @@ namespace Rss2Flat
         /*
         public RssParser(string filename) : base(filename)
         {
-            rss20Element = new Dictionary<Rss20ChannelElement, string>();
-            rss20Channel = new List<Dictionary<Rss20ChannelElement, string>>();
+            rss20Element = new Dictionary<Rss20Post, string>();
+            rss20Channel = new List<Dictionary<Rss20Post, string>>();
             string xmlElementName;
 
             //xmlEnum = 
@@ -347,34 +344,34 @@ namespace Rss2Flat
                         // Every new title element defines a new news item 
                         case "title":
                             i++;
-                            this.rss20Channel.Add(new Dictionary<Rss20ChannelElement, string>());
-                            this.rss20Channel[i].Add(Rss20ChannelElement.title, xmlElement.Value);
+                            this.rss20Channel.Add(new Dictionary<Rss20Post, string>());
+                            this.rss20Channel[i].Add(Rss20Post.title, xmlElement.Value);
                             break;
 
 
 
                         case "link":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.link, xmlElement.Value);
+                            this.rss20Channel[i].Add(Rss20Post.link, xmlElement.Value);
                             break;
 
                         case "description":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.description, xmlElement.Value);
+                            this.rss20Channel[i].Add(Rss20Post.description, xmlElement.Value);
                             break;
 
                         case "language":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.language, xmlElement.Value);
+                            this.rss20Channel[i].Add(Rss20Post.language, xmlElement.Value);
                             break;
 
                         case "copyright":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.copyright, xmlElement.Value);
+                            this.rss20Channel[i].Add(Rss20Post.copyright, xmlElement.Value);
                             break;
 
                         case "lastBuildDate":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.lastBuildDate, xmlElement.Value);
+                            this.rss20Channel[i].Add(Rss20Post.lastBuildDate, xmlElement.Value);
                             break;
 
                         case "image":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.image, xmlElement.Value);
+                            this.rss20Channel[i].Add(Rss20Post.image, xmlElement.Value);
                             break;
 
                         case "url":
@@ -386,11 +383,11 @@ namespace Rss2Flat
                             break;
 
                         case "guid":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.guid, xmlElement.Value);
+                            this.rss20Channel[i].Add(Rss20Post.guid, xmlElement.Value);
                             break;
 
                         case "pubDate":
-                            this.rss20Channel[i].Add(Rss20ChannelElement.pubDate, xmlElement.Value);
+                            this.rss20Channel[i].Add(Rss20Post.pubDate, xmlElement.Value);
                             break;
 
                         case "category":
@@ -415,7 +412,7 @@ namespace Rss2Flat
 
                         case "{http://www.w3.org/2005/Atom}link":
                             // multiple additions
-                            // this.rss20Channel[i].Add(Rss20ChannelElement.link, xmlElement.Value);
+                            // this.rss20Channel[i].Add(Rss20Post.link, xmlElement.Value);
                             break;
 
 
