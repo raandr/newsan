@@ -53,6 +53,19 @@ namespace Rss2Flat
             rss20PostContents.Add(e, s);
         }
 
+        public void Clear()
+        {
+            rss20PostContents.Clear();
+        }
+
+        public void Wipe()
+        {
+            foreach (KeyValuePair<Rss20PostEnum, string> kvp in rss20PostContents.AsEnumerable())
+            {
+                kvp.Value = "";
+            }
+        }
+
 
 
 
@@ -93,6 +106,12 @@ namespace Rss2Flat
 
     class Rss20File : XmlFile
     {
+        
+        // Main placeholder for data
+        List<Rss20Channel> rss20Channels; // List of RSS 2.0 channels
+        // Channels > Channel > Post
+        
+
         XElement rss20Tag;
 
         IEnumerable<XAttribute> rss20AttributesIE;
@@ -115,11 +134,7 @@ namespace Rss2Flat
         List<Rss20XmlNamespace> rss20XmlNamespaces;
 
 
-        // =========================
-        // Main placeholder for data
-        List<Rss20Channel> rss20Channels; // List of RSS 2.0 channels
-        // =========================
-
+        
         
         Rss20XmlNamespace rss20XmlNamespace;
 
@@ -132,11 +147,19 @@ namespace Rss2Flat
 
         public Rss20File(string inputRssFileName) : base(inputRssFileName)
         {
+            
+            // Temporary placeholders for data
             Rss20Channel r20C;
-            Rss20Post r20CE;
+            Rss20Post r20P;
+            
+
+            // Initializing the data placeholder of the class
+            rss20Channels = new List<Rss20Channel>();
+            
+            
 
             rss20XmlNamespaces = new List<Rss20XmlNamespace>();
-            // ======================================================
+            
             // Start of rss attributes extraction
             rss20Tag = base.xmlIE.DescendantsAndSelf().First();
             rss20AttributesIE = rss20Tag.Attributes();
@@ -181,54 +204,56 @@ namespace Rss2Flat
             // Getting the channels
 
             r20C = new Rss20Channel();
-            r20CE = new Rss20Post();
+            r20P = new Rss20Post();
             string postElementName;
             
-            foreach (XElement iChannel in xmlIE.Descendants(rss20ChannelXmlElementName))
+            foreach (XElement iPost in xmlIE.Descendants(rss20ChannelXmlElementName))
             {
-                foreach (XElement iPost in iChannel.Descendants(rss20PostXmlElementName))
+                //r20P.Wipe();
+                r20P.Clear();
+                foreach (XElement iAttr in iPost.Descendants(rss20PostXmlElementName))
                 {
-                    switch (iPost.Name.LocalName)
+                    switch (iAttr.Name.LocalName)
                     {
                         // Every new title element defines a new news item 
                         case "title":
-                            r20CE.Set(Rss20PostEnum.title, iPost.Value);
+                            r20P.Set(Rss20PostEnum.title, iAttr.Value);
                             break;
 
                         case "link":
-                            r20CE.Set(Rss20PostEnum.link, iPost.Value);
+                            r20P.Set(Rss20PostEnum.link, iAttr.Value);
                             break;
 
                         case "description":
-                            r20CE.Set(Rss20PostEnum.description, iPost.Value);
+                            r20P.Set(Rss20PostEnum.description, iAttr.Value);
                             break;
 
                         case "language":
-                            r20CE.Set(Rss20PostEnum.language, iPost.Value);
+                            r20P.Set(Rss20PostEnum.language, iAttr.Value);
                             break;
 
                         case "copyright":
-                            r20CE.Set(Rss20PostEnum.copyright, iPost.Value);
+                            r20P.Set(Rss20PostEnum.copyright, iAttr.Value);
                             break;
 
                         case "lastBuildDate":
-                            r20CE.Set(Rss20PostEnum.lastBuildDate, iPost.Value);
+                            r20P.Set(Rss20PostEnum.lastBuildDate, iAttr.Value);
                             break;
 
                         case "image":
-                            r20CE.Set(Rss20PostEnum.image, iPost.Value);
+                            r20P.Set(Rss20PostEnum.image, iAttr.Value);
                             break;
 
                         case "url":
-                            r20CE.Set(Rss20PostEnum.url, iPost.Value);
+                            r20P.Set(Rss20PostEnum.url, iAttr.Value);
                             break;
 
                         case "guid":
-                            r20CE.Set(Rss20PostEnum.guid, iPost.Value);
+                            r20P.Set(Rss20PostEnum.guid, iAttr.Value);
                             break;
 
                         case "pubDate":
-                            r20CE.Set(Rss20PostEnum.pubDate, iPost.Value);
+                            r20P.Set(Rss20PostEnum.pubDate, iAttr.Value);
                             break;
 
                         case "category":
@@ -238,14 +263,16 @@ namespace Rss2Flat
                     
                 }
                 
-                r20C.Add(r20CE);
+                r20C.Add(r20P);
+
+                
+                // Data is copied into the object
+                
+                
 
             }
 
-
-
-            rss20Channels = new List<Rss20Channel>(this.xmlIE.Descendants(rss20ChannelXmlElementName));
-            // There may be several channels inside one XML
+            rss20Channels.Add(r20C);
 
 
 
