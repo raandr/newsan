@@ -211,73 +211,82 @@ namespace Rss2Flat
             r20C = new Rss20Channel();
             r20P = new Rss20Post();
             string postElementName;
-            
-            foreach (XElement iPost in xmlIE.Descendants(rss20ChannelXmlElementName))
+
+            foreach (XElement iChannel in xmlIE.Descendants(rss20ChannelXmlElementName))
             {
-                //r20P.Wipe();
-                r20P.Clear();
-                foreach (XElement iAttr in iPost.Descendants(rss20PostXmlElementName))
+                // Need to add channel attributes
+                foreach (XElement iPost in iChannel.Descendants())
                 {
-                    switch (iAttr.Name.LocalName)
+                    //r20P.Wipe();
+                    r20P.Clear();
+                    foreach (XElement iAttr in iPost.Descendants(rss20PostXmlElementName))
                     {
-                        // Every new title element defines a new news item 
-                        case "title":
-                            r20P.Set(Rss20PostEnum.title, iAttr.Value);
-                            break;
+                        switch (iAttr.Name.LocalName)
+                        {
+                            // Every new title element defines a new news item 
+                            case "title":
+                                r20P.Set(Rss20PostEnum.title, iAttr.Value);
+                                break;
 
-                        case "link":
-                            r20P.Set(Rss20PostEnum.link, iAttr.Value);
-                            break;
+                            case "link":
+                                r20P.Set(Rss20PostEnum.link, iAttr.Value);
+                                break;
 
-                        case "description":
-                            r20P.Set(Rss20PostEnum.description, iAttr.Value);
-                            break;
+                            case "description":
+                                r20P.Set(Rss20PostEnum.description, iAttr.Value);
+                                break;
 
-                        case "language":
-                            r20P.Set(Rss20PostEnum.language, iAttr.Value);
-                            break;
+                            case "language":
+                                r20P.Set(Rss20PostEnum.language, iAttr.Value);
+                                break;
 
-                        case "copyright":
-                            r20P.Set(Rss20PostEnum.copyright, iAttr.Value);
-                            break;
+                            case "copyright":
+                                r20P.Set(Rss20PostEnum.copyright, iAttr.Value);
+                                break;
 
-                        case "lastBuildDate":
-                            r20P.Set(Rss20PostEnum.lastBuildDate, iAttr.Value);
-                            break;
+                            case "lastBuildDate":
+                                r20P.Set(Rss20PostEnum.lastBuildDate, iAttr.Value);
+                                break;
 
-                        case "image":
-                            r20P.Set(Rss20PostEnum.image, iAttr.Value);
-                            break;
+                            case "image":
+                                r20P.Set(Rss20PostEnum.image, iAttr.Value);
+                                break;
 
-                        case "url":
-                            r20P.Set(Rss20PostEnum.url, iAttr.Value);
-                            break;
+                            case "url":
+                                r20P.Set(Rss20PostEnum.url, iAttr.Value);
+                                break;
 
-                        case "guid":
-                            r20P.Set(Rss20PostEnum.guid, iAttr.Value);
-                            break;
+                            case "guid":
+                                r20P.Set(Rss20PostEnum.guid, iAttr.Value);
+                                break;
 
-                        case "pubDate":
-                            r20P.Set(Rss20PostEnum.pubDate, iAttr.Value);
-                            break;
+                            case "pubDate":
+                                r20P.Set(Rss20PostEnum.pubDate, iAttr.Value);
+                                break;
 
-                        case "category":
-                            // Do nothing
-                            break;
+                            case "category":
+                                // Do nothing
+                                break;
+                        }
+
                     }
-                    
-                }
-                
-                r20C.Add(r20P);
 
-                
-                // Data is copied into the object
-                
-                
+                    r20C.Add(r20P);
+
+
+                    // Data is copied into the object
+
+
+
+                }
+
+                rss20Channels.Add(r20C);
+
+
+
+
 
             }
-
-            rss20Channels.Add(r20C);
 
 
 
