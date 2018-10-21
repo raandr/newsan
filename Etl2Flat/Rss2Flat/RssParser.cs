@@ -60,9 +60,14 @@ namespace Rss2Flat
 
         public void Wipe()
         {
-            foreach (KeyValuePair<Rss20PostEnum, string> kvp in rss20PostContents.AsEnumerable())
+            foreach (Rss20PostEnum iK in rss20PostContents.Keys)
             {
-                kvp.Value = "";
+                //KeyValuePair cannot be changed
+                //var newEntry = new KeyValuePair<Tkey, Tvalue>(oldEntry.Key, newValue);
+                //var newEntry = new KeyValuePair<Rss20PostEnum, string>(iK, newValue);
+                
+                string newValue = "";                
+                rss20PostContents[iK] = newValue;
             }
         }
 
