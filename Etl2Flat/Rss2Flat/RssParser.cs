@@ -146,6 +146,8 @@ namespace Rss2Flat
         string s;
         XElement rssChannelXmlElement;
         private const string rss20ChannelXmlElementName = "channel";
+
+        // Every post in the channel is inside the <item> tag
         private const string rss20PostXmlElementName = "item";
 
         // need to add rss20Attributes
@@ -156,6 +158,8 @@ namespace Rss2Flat
             // Temporary placeholders for data
             Rss20Channel r20C;
             Rss20Post r20P;
+            IEnumerable<XAttribute> channelAttr;
+            XNode channelNode;
             
 
             // Initializing the data placeholder of the class
@@ -212,8 +216,57 @@ namespace Rss2Flat
             r20P = new Rss20Post();
             string postElementName;
 
-            foreach (XElement iChannel in xmlIE.Descendants(rss20ChannelXmlElementName))
+            foreach (XElement iChannel in xmlIE.DescendantsAndSelf(rss20ChannelXmlElementName))
             {
+                channelAttr = iChannel.Attributes();
+                foreach (XAttribute iCA in channelAttr)
+                {
+                    switch(iCA.Name)
+                    {
+                        //case ""
+                        default:
+                        break;
+                    }
+
+                }
+
+                channelNode = iChannel.FirstNode;
+
+
+
+                while (channelNode.ToString() != rss20PostXmlElementName)
+                {
+                    switch (channelNode.ToString())
+                    {
+                        case "title":
+                            break;
+
+                        case "link":
+
+                            break;
+                        case "description":
+
+                            break;
+                        case "language":
+
+                            break;
+                        case "copyright":
+
+                            break;
+                        case "lastBuildDate":
+
+                            break;
+                        case "image":
+
+                            break;
+
+
+
+                    }
+                    channelNode = channelNode.NextNode;
+                }
+
+
                 // Need to add channel attributes
                 foreach (XElement iPost in iChannel.Descendants())
                 {
