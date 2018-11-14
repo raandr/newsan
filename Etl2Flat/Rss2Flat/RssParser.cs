@@ -86,6 +86,10 @@ namespace Rss2Flat
         // I don't like lambda syntax
         //internal List<Rss20Post> rss20Posts { get => rss20Posts; set => rss20Posts = value; }
 
+        private const string rss20PostTag = "item";
+
+        public string PostTag => rss20PostTag;
+
         public List<Rss20Post> rss20Posts
         {
             get
@@ -99,6 +103,26 @@ namespace Rss2Flat
             }
 
         }
+/*
+        title 
+link
+linkRel
+linkType
+linkHref
+description
+language
+copyright
+lastBuildDate
+image>    
+ <title>NY
+ <url>http
+ <link>htt
+/image>   
+*/
+
+
+
+
 
         public void Add(Rss20Post Rss20Post)
         {
@@ -148,7 +172,8 @@ namespace Rss2Flat
         private const string rss20ChannelXmlElementName = "channel";
 
         // Every post in the channel is inside the <item> tag
-        private const string rss20PostXmlElementName = "item";
+        // private const string rss20PostXmlElementName = "item";
+        // see PostTag
 
         // need to add rss20Attributes
 
@@ -234,7 +259,8 @@ namespace Rss2Flat
 
 
 
-                while (channelNode.ToString() != rss20PostXmlElementName)
+                // process data about channel
+                while (channelNode.ToString() != r20C.PostTag) // != <item>
                 {
                     switch (channelNode.ToString())
                     {
@@ -272,7 +298,7 @@ namespace Rss2Flat
                 {
                     //r20P.Wipe();
                     r20P.Clear();
-                    foreach (XElement iAttr in iPost.Descendants(rss20PostXmlElementName))
+                    foreach (XElement iAttr in iPost.Descendants(r20C.PostTag))
                     {
                         switch (iAttr.Name.LocalName)
                         {
