@@ -103,22 +103,114 @@ namespace Rss2Flat
             }
 
         }
-/*
-        title 
-link
-linkRel
-linkType
-linkHref
-description
-language
-copyright
-lastBuildDate
-image>    
- <title>NY
- <url>http
- <link>htt
-/image>   
-*/
+
+        struct Rss20Image
+        {
+            string title;
+            string url;
+            string link;
+        }
+
+        struct Rss20AtomLinkAttr
+        {
+            public string rel;
+            public string type;
+            public string href;
+        }
+
+        struct Rss20ChannelParams
+        {
+            public string title;
+            public string link;
+            public Rss20AtomLinkAttr rss20AtomLinkAttr;
+            public string description;
+            public string language;
+            public string copyright;
+            public string lastBuildDate;
+            public Rss20Image image;
+        }
+        Rss20ChannelParams rss20ChannelParams;
+
+        public string Rss20ChannelTitle
+        {
+            get => rss20ChannelParams.title;
+            set => rss20ChannelParams.title = value;
+        }
+
+        public string Rss20ChannelLink
+        {
+            get => rss20ChannelParams.link;
+            set => rss20ChannelParams.link = value;
+        }
+
+        public string Rss20ChannelDescription
+        {
+            get => rss20ChannelParams.description;
+            set => rss20ChannelParams.description = value;
+        }
+
+        public string Rss20ChannelLanguage
+        {
+            get => rss20ChannelParams.language;
+            set => rss20ChannelParams.language = value;
+        }
+
+        public string Rss20ChannelCopyright
+        {
+            get => rss20ChannelParams.copyright;
+            set => rss20ChannelParams.copyright = value;
+        }
+
+        public string Rss20ChannelLastBuildDate
+        {
+            get => rss20ChannelParams.lastBuildDate;
+            set => rss20ChannelParams.lastBuildDate = value;
+        }
+
+        public string Rss20ChannelAtomLinkAttrRel
+        {
+            get
+            {
+
+
+            }
+
+            set
+            {
+
+
+            }
+        }
+
+        public string Rss20ChannelAtomLinkAttrType
+        {
+            get
+            {
+                return rss20ChannelParams.rss20AtomLinkAttr.type;
+            }
+
+            set
+            {
+                rss20ChannelParams.rss20AtomLinkAttr.type = value;
+            }
+        }
+
+
+                public string Rss20ChannelAtomLinkAttrHref
+        {
+            get
+            {
+
+
+            }
+
+            set
+            {
+
+
+            }
+        }
+
 
 
 
@@ -265,6 +357,7 @@ image>
                     switch (channelNode.ToString())
                     {
                         case "title":
+                        r20C.
                             break;
 
                         case "link":
