@@ -1,0 +1,14 @@
+{
+  "ProjectFilePath": "/home/anatoly/Projects/git/Etl2Flat/Rss2Flat/Rss2Flat.csproj",
+  "TargetFramework": "netcoreapp2.1",
+  "TagHelpers": [],
+  "Configuration": {
+    "ConfigurationName": "UnsupportedRazor",
+    "LanguageVersion": "1.0",
+    "Extensions": [
+      {
+        "ExtensionName": "UnsupportedRazorExtension"
+      }
+    ]
+  }
+}
