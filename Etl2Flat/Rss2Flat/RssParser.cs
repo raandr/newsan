@@ -90,7 +90,7 @@ namespace Rss2Flat
         // I don't like lambda syntax
         //internal List<Rss20Post> rss20Posts { get => rss20Posts; set => rss20Posts = value; }
 
-        private const string rss20PostTag = "item";
+        public const string rss20PostTag = "item";
 
         public string PostTag => rss20PostTag;
 
@@ -316,7 +316,7 @@ namespace Rss2Flat
             Rss20Channel r20C;
             Rss20Post r20P;
             IEnumerable<XAttribute> channelAttr;
-            XNode channelNode;
+            IEnumerable<XElement> iChannelEl;
             
 
             // Initializing the data placeholder of the class
@@ -373,12 +373,13 @@ namespace Rss2Flat
             r20P = new Rss20Post();
             string postElementName;
 
+            // start of big foreach for each channel in XML
             foreach (XElement iChannel in xmlIE.DescendantsAndSelf(rss20ChannelXmlElementName))
             {
                 channelAttr = iChannel.Attributes();
                 foreach (XAttribute iCA in channelAttr)
                 {
-                    switch(iCA.Name)
+                    switch (iCA.Name)
                     {
                         //case ""
                         default:
@@ -388,44 +389,66 @@ namespace Rss2Flat
                 }
 
                 // need to rewrite
-                channelNode = iChannel.FirstNode;
-                iChannel.Ancestors()
+                // looking for elements before the posts
+                iChannelEl = iChannel.Descendants();
+
+                /*
+                foreach (XElement xChAn in iChannel.Ancestors())
+                {
+                    switch (xChAn.Name.LocalName.ToString())
+                    {
+                        case "":
+                        break;
+                    }
+                }
+                */
+
+                //XElement iCh = iChannelEl.First();
+                int i = 0;
 
 
+
+                bool exitFlag = false;
 
                 // process data about channel
-                while (channelNode.ToString() != r20C.PostTag) // != <item>
+                foreach (XElement iCh in iChannel.Ancestors())
                 {
-                    switch (channelNode.ToString())
+                    switch (iCh.Name.ToString())
                     {
+                        case Rss20Channel.rss20PostTag: // <item>
+                        exitFlag = true;
+                                               
+                        break;
+
+
                         case "title":
-                        r20C.Rss20ChannelTitle = channelNode.ToString();
+                        r20C.Rss20ChannelTitle = iCh.Value;
                             break;
 
                         case "link":
-                        r20C.Rss20ChannelLink = channelNode.Document();
+                        r20C.Rss20ChannelLink = iCh.Value;
 
                             break;
                         case "description":
-                        r20C.Rss20ChannelDescription = channelNode.ToString();
+                        r20C.Rss20ChannelDescription = iCh.Value;
 
                             break;
                         case "language":
-                        r20C.Rss20ChannelLanguage = channelNode.ToString();
+                        r20C.Rss20ChannelLanguage = iCh.Value;
 
                             break;
                         case "copyright":
-                        r20C.Rss20ChannelCopyright = channelNode.ToString();
+                        r20C.Rss20ChannelCopyright = iCh.Value;
 
                             break;
                         case "lastBuildDate":
-                        r20C.Rss20ChannelLastBuildDate = channelNode.ToString();
+                        r20C.Rss20ChannelLastBuildDate = iCh.Value;
 
                             break;
                         case "image":
-                        // image has subtags
+                        // <image> has subtags
                         IEnumerable<XElement> xIm;
-                        xIm = channelNode.Ancestors();
+                        xIm = iChannelEl.Ancestors();
                         foreach (XElement xImX in xIm)
                         {
                             switch (xImX.Name.ToString())
@@ -442,21 +465,31 @@ namespace Rss2Flat
                                 break;
                             }
                         }
-
+                        // end of <image>
                             break;
 
 
 
                     }
-                    channelNode = channelNode.NextNode;
+                    // end of switch
+
+                    if (exitFlag)
+                        break;
+
                 }
+                // end of channel params processing
 
 
                 // Need to add channel attributes
+
+                // start of post-by-post channel processing
                 foreach (XElement iPost in iChannel.Descendants())
                 {
                     //r20P.Wipe();
                     r20P.Clear();
+
+                    // start of the post's attributes processing
+                    // // post attribute is not an atrubute in terms of XML
                     foreach (XElement iAttr in iPost.Descendants(r20C.PostTag))
                     {
                         switch (iAttr.Name.LocalName)
@@ -509,55 +542,15 @@ namespace Rss2Flat
 
                     }
 
-                    r20C.Add(r20P);
-
-
-                    // Data is copied into the object
-
-
+                    r20C.Add(r20P); // Data is copied into the object
+                    // end of post's attributes processing
 
                 }
 
-                rss20Channels.Add(r20C);
-
-
-
-
+                rss20Channels.Add(r20C); // Post is added to the Channel
 
             }
-
-
-
-
-            foreach (XElement xE in rss20Channels)
-            {
-                try
-                {
-                    Console.WriteLine(xE.HasElements);
-
-                    // Parsing the channel as RSS 2.0 channel
-
-		    rss20.
-
-
-
-
-                }
-
-                catch (ArgumentOutOfRangeException e)
-                {
-                    Console.WriteLine(e.ToString());
-
-                }
-
-            }
-
-
-
-
-
-
-
+            // end of big foreach for each channel in XML
 
 
         }
