@@ -27,6 +27,8 @@ namespace Rss2Flat
         public Rss20Post(List<Rss20PostEnum> attributeNames, List<string> attributeValues)
         {
             int i;
+	    
+	    
 
             rss20PostContents = new Dictionary<Rss20PostEnum, string>(numberOfAttributes);
 
@@ -40,6 +42,7 @@ namespace Rss2Flat
         public Rss20Post(Dictionary<Rss20PostEnum, string> values)
         {
             rss20PostContents = new Dictionary<Rss20PostEnum, string>(values);
+	    rss20PostContents.
         }
 
         public Rss20Post()
@@ -51,6 +54,7 @@ namespace Rss2Flat
         public void Set(Rss20PostEnum e, string s)
         {
             rss20PostContents.Add(e, s);
+	    rss20PostContents.
         }
 
         public void Clear()
@@ -106,9 +110,9 @@ namespace Rss2Flat
 
         struct Rss20Image
         {
-            string title;
-            string url;
-            string link;
+            public string title;
+            public string url;
+            public string link;
         }
 
         struct Rss20AtomLinkAttr
@@ -196,7 +200,7 @@ namespace Rss2Flat
         }
 
 
-                public string Rss20ChannelAtomLinkAttrHref
+        public string Rss20ChannelAtomLinkAttrHref
         {
             get
             {
@@ -208,6 +212,42 @@ namespace Rss2Flat
             {
 
 
+            }
+        }
+
+        public string Rss20ChannelImageTitle
+        {
+            get
+            {
+                return rss20ChannelParams.image.title;
+            }
+            set
+            {
+                rss20ChannelParams.image.title = value;
+            }
+        }
+
+        public string Rss20ChannelImageLink
+        {
+            get
+            {
+                return rss20ChannelParams.image.link;
+            }
+            set
+            {
+                rss20ChannelParams.image.link = value;
+            }
+        }
+
+        public string Rss20ChannelImageUrl
+        {
+            get
+            {
+                return rss20ChannelParams.image.url;
+            }
+            set
+            {
+                rss20ChannelParams.image.url = value;
             }
         }
 
@@ -347,7 +387,9 @@ namespace Rss2Flat
 
                 }
 
+                // need to rewrite
                 channelNode = iChannel.FirstNode;
+                iChannel.Ancestors()
 
 
 
@@ -357,25 +399,49 @@ namespace Rss2Flat
                     switch (channelNode.ToString())
                     {
                         case "title":
-                        r20C.
+                        r20C.Rss20ChannelTitle = channelNode.ToString();
                             break;
 
                         case "link":
+                        r20C.Rss20ChannelLink = channelNode.Document();
 
                             break;
                         case "description":
+                        r20C.Rss20ChannelDescription = channelNode.ToString();
 
                             break;
                         case "language":
+                        r20C.Rss20ChannelLanguage = channelNode.ToString();
 
                             break;
                         case "copyright":
+                        r20C.Rss20ChannelCopyright = channelNode.ToString();
 
                             break;
                         case "lastBuildDate":
+                        r20C.Rss20ChannelLastBuildDate = channelNode.ToString();
 
                             break;
                         case "image":
+                        // image has subtags
+                        IEnumerable<XElement> xIm;
+                        xIm = channelNode.Ancestors();
+                        foreach (XElement xImX in xIm)
+                        {
+                            switch (xImX.Name.ToString())
+                            {
+                                case "tite":
+                                r20C.Rss20ChannelImageTitle = xImX.Document.ToString();
+
+                                break;
+                                case "link":
+
+                                break;
+                                case "url":
+
+                                break;
+                            }
+                        }
 
                             break;
 
@@ -470,7 +536,8 @@ namespace Rss2Flat
                     Console.WriteLine(xE.HasElements);
 
                     // Parsing the channel as RSS 2.0 channel
-                    rss20
+
+		    rss20.
 
 
 
