@@ -6,10 +6,10 @@ namespace Rss2Flat
 {
 
 
-    class Rss20File : XmlFile
+    class Rss20File : RssFile
     {
         
-        // Main placeholder for data
+        // Main placeholder for data - list of RSS 2.0 channels
         List<Rss20Channel> rss20Channels; // List of RSS 2.0 channels
         // Channels > Channel > Post
         

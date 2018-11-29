@@ -98,14 +98,12 @@ namespace Rss2Flat
         {
             get
             {
-
-
+                return rss20ChannelParams.rss20AtomLinkAttr.rel;
             }
 
             set
             {
-
-
+                rss20ChannelParams.rss20AtomLinkAttr.rel = value;
             }
         }
 
@@ -127,14 +125,12 @@ namespace Rss2Flat
         {
             get
             {
-
-
+                return rss20ChannelParams.rss20AtomLinkAttr.href;
             }
 
             set
             {
-
-
+                rss20ChannelParams.rss20AtomLinkAttr.href = value;
             }
         }
 

@@ -44,7 +44,6 @@ namespace Rss2Flat
         public Rss20Post(Dictionary<Rss20PostEnum, string> values)
         {
             rss20PostContents = new Dictionary<Rss20PostEnum, string>(values);
-	    rss20PostContents.
         }
 
         public Rss20Post()
@@ -56,7 +55,6 @@ namespace Rss2Flat
         public void Set(Rss20PostEnum e, string s)
         {
             rss20PostContents.Add(e, s);
-	    rss20PostContents.
         }
 
         public void Clear()

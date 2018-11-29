@@ -118,7 +118,7 @@ namespace Rss2Flat
         }
 
 
-        public TableWriter(XmlParser xmlP, System.Collections.Generic.List<string> fieldOrder, string fileName, int chunkSize, char columnDelimiter)
+        public TableWriter(RssFile rssF, System.Collections.Generic.List<string> fieldOrder, string fileName, int chunkSize, char columnDelimiter)
         {
             int length;
             int i = 0;
@@ -143,7 +143,7 @@ namespace Rss2Flat
 
             CreateNextFlatFileChunk();
 
-            foreach (System.Xml.Linq.XElement xE in xmlP.xmlEnum)
+            foreach (System.Xml.Linq.XElement xE in rssF.xmlIE)
             {
                 try
                 {
