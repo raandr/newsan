@@ -14,10 +14,11 @@ namespace Rss2Flat
 
             RssFile rssFile = new RssFile(@"World.xml");
 
-            if (rssFile.GetVersion())
+            if (rssFile.rssVersion != RssVersion.v20)
             {
-                
+                // Any RSS version that is not RSS 2.0
             }
+            
             Rss20 rss20File = new Rss20(@"World.xml");
             rss20File.PrintXml();
 
