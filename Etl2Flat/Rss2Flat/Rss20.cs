@@ -6,7 +6,7 @@ namespace Rss2Flat
 {
 
 
-    class Rss20File : RssFile
+    class Rss20 : RssFile
     {
         
         // Main placeholder for data - list of RSS 2.0 channels
@@ -50,7 +50,7 @@ namespace Rss2Flat
 
         // need to add rss20Attributes
 
-        public Rss20File(string inputRssFileName) : base(inputRssFileName)
+        public Rss20(string inputRssFileName) : base(inputRssFileName)
         {
             
             // Temporary placeholders for data
@@ -68,7 +68,7 @@ namespace Rss2Flat
             rss20XmlNamespaces = new List<Rss20XmlNamespace>();
             
             // Start of rss attributes extraction
-            rss20Tag = base.xmlIE.DescendantsAndSelf().First();
+            rss20Tag = base.rssXmlElements.DescendantsAndSelf().First();
             rss20AttributesIE = rss20Tag.Attributes();
 
             foreach (XAttribute xA in rss20AttributesIE)

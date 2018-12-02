@@ -9,9 +9,16 @@ namespace Rss2Flat
         {
 
             //XmlParser xmlParser = new XmlParser(@"World.xml");
+            Rss20 rss20File;
 
 
-            Rss20File rss20File = new Rss20File(@"World.xml");
+            RssFile rssFile = new RssFile(@"World.xml");
+
+            if (rssFile.GetVersion())
+            {
+                
+            }
+            Rss20 rss20File = new Rss20(@"World.xml");
             rss20File.PrintXml();
 
             System.Collections.Generic.List<string> order =
