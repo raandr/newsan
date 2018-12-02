@@ -11,8 +11,8 @@ namespace Rss2Flat
             //XmlParser xmlParser = new XmlParser(@"World.xml");
 
 
-            RssParser rssParser = new RssParser(@"World.xml");
-            rssParser.PrintXml();
+            Rss20File rss20File = new Rss20File(@"World.xml");
+            rss20File.PrintXml();
 
             System.Collections.Generic.List<string> order =
                 new System.Collections.Generic.List<string>(new string[]
