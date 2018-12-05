@@ -32,8 +32,30 @@ namespace Rss2Flat
 
         protected XName rssName;
 
-        public virtual RssVersion GetVersion()
+        protected virtual RssVersion GetVersion()
         {
+            // Checking the version
+            // Example: <rss version="2.0">
+
+            IEnumerable<XElement> rssXElement;
+            IEnumerable<XAttribute> versionXAttribute;
+            string rssVersionString;
+
+            rssXElement = rssXml.DescendantsAndSelf((XName)"rss");
+            versionXAttribute = rssXElement.Attributes((XName)"version");
+
+            // need to check the behaviour of Current
+            rssVersionString = versionXAttribute.GetEnumerator().Current.Value;
+            switch (rssVersionString)
+            {
+                case "1.0":
+                rssVersion = RssVersion.v10;
+                break;
+
+                case "2.0":
+                rssVersion = RssVersion.v20;
+                break;
+            }
 
         }
 
@@ -48,7 +70,8 @@ namespace Rss2Flat
 
             // Checking the version
             // Example: <rss version="2.0">
-            rssXml.DescendantsAndSelf((XName)"version");
+            GetVersion();
+            
         }
 
         public void PrintXml()
