@@ -22,7 +22,7 @@ namespace Rss2Flat
 
         RssVersion rssVersion;
 
-        public RssVersion version
+        public RssVersion Version
         {
             get
             {
