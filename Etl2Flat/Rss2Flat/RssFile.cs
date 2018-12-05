@@ -20,19 +20,19 @@ namespace Rss2Flat
         protected IEnumerable<System.Xml.Linq.XElement> rssXmlElements;
 
 
-        RssVersion rssVersionValue;
+        RssVersion rssVersion;
 
-        public RssVersion rssVersion
+        public RssVersion version
         {
             get
             {
-                return rssVersionValue;
+                return rssVersion;
             }
         }
 
         protected XName rssName;
 
-        public RssVersion GetVersion()
+        public virtual RssVersion GetVersion()
         {
 
         }
